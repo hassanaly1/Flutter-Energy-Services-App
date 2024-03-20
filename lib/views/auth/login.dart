@@ -62,14 +62,12 @@ class LoginScreen extends StatelessWidget {
                           text: 'Welcome To Energy Services',
                           fontSize: 18.0,
                           fontWeight: FontWeight.w700,
-                          textColor: AppColors.blueTextColor,
                         ),
                         CustomTextWidget(
                           text: 'Please enter your Email Password.',
                           fontSize: 12.0,
                           fontWeight: FontWeight.w500,
                           textAlign: TextAlign.center,
-                          textColor: AppColors.blueTextColor,
                           fontStyle: FontStyle.italic,
                           maxLines: 4,
                         ),
@@ -108,7 +106,6 @@ class LoginScreen extends StatelessWidget {
                                   fontSize: 12.0,
                                   textAlign: TextAlign.center,
                                   fontWeight: FontWeight.w500,
-                                  textColor: AppColors.blueTextColor,
                                 ),
                               ),
                             ],
@@ -136,7 +133,7 @@ class LoginScreen extends StatelessWidget {
                               TextSpan(
                                 text: 'If you don’t have any account? ',
                                 style: const TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12.0),
                                 children: [
@@ -144,7 +141,7 @@ class LoginScreen extends StatelessWidget {
                                     text: 'Signup',
                                     style: TextStyle(
                                         color: AppColors.blueTextColor,
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14.0),
                                   ),

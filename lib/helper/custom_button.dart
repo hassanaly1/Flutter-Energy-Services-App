@@ -1,5 +1,7 @@
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_text.dart';
+import 'package:energy_services/helper/reusable_container.dart';
+import 'package:energy_services/helper/reusable_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -25,28 +27,22 @@ class CustomButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      child: Container(
+    return GestureDetector(
+        onTap: onTap,
+        child: ReUsableContainer(
+          verticalPadding: context.height * 0.02,
           height: height ?? 50,
-          width: width,
-          margin: EdgeInsets.symmetric(
-              horizontal: context.width * 0.15,
-              vertical: context.height * 0.02),
-          decoration: BoxDecoration(
-            color: usePrimaryColor
-                ? AppColors.primaryColor
-                : AppColors.secondaryColor,
-            borderRadius: BorderRadius.circular(6.0),
-          ),
+          color: usePrimaryColor
+              ? AppColors.primaryColor
+              : AppColors.secondaryColor,
           child: Center(
               child: CustomTextWidget(
             text: buttonText,
             fontSize: 16,
-            textColor: textColor ?? Colors.white,
+            textColor: usePrimaryColor ? Colors.black87 : Colors.white,
             fontWeight: FontWeight.w600,
             textAlign: TextAlign.center,
-          ))),
-    );
+          )),
+        ));
   }
 }

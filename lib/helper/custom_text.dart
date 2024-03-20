@@ -1,6 +1,5 @@
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class CustomTextWidget extends StatelessWidget {
   final String text;
@@ -9,6 +8,7 @@ class CustomTextWidget extends StatelessWidget {
   final FontStyle? fontStyle;
   final Color? textColor;
   final TextAlign? textAlign;
+  final TextDecoration? decoration;
   int? maxLines;
   CustomTextWidget({
     super.key,
@@ -19,6 +19,7 @@ class CustomTextWidget extends StatelessWidget {
     this.maxLines,
     this.fontWeight,
     this.fontStyle,
+    this.decoration,
   });
 
   @override
@@ -28,12 +29,13 @@ class CustomTextWidget extends StatelessWidget {
       textAlign: textAlign,
       maxLines: maxLines ?? 1,
       overflow: TextOverflow.ellipsis,
-      style: GoogleFonts.poppins(
-        // fontFamily: 'Poppins',
+      style: TextStyle(
+        fontFamily: 'Poppins',
+        decoration: decoration,
         fontStyle: fontStyle ?? FontStyle.normal,
         fontSize: fontSize ?? 12,
         fontWeight: fontWeight ?? FontWeight.w400,
-        color: textColor ?? AppColors.textColor,
+        color: textColor ?? AppColors.blueTextColor,
       ),
     );
   }

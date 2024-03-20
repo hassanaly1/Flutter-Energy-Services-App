@@ -1,9 +1,11 @@
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ReUsableTextField extends StatelessWidget {
   final String hintText;
+  final bool? readOnly;
   int? maxLines;
   Widget? prefixIcon;
   Widget? suffixIcon;
@@ -15,6 +17,7 @@ class ReUsableTextField extends StatelessWidget {
   ReUsableTextField(
       {super.key,
       required this.hintText,
+      this.readOnly,
       this.prefixIcon,
       this.suffixIcon,
       this.maxLines = 1,
@@ -28,9 +31,11 @@ class ReUsableTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return ReUsableContainer(
       showBackgroundShadow: showBackgroundShadow,
+      verticalPadding: context.height * 0.015,
       child: TextFormField(
+        readOnly: readOnly ?? false,
         // textAlignVertical: TextAlignVertical.bottom,
-        onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
+        //  onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         controller: controller,
         validator: validator,
         maxLines: maxLines,
@@ -59,7 +64,7 @@ class ReUsableTextField extends StatelessWidget {
           ),
           errorStyle: const TextStyle(
             fontSize: 8.0,
-            fontFamily: 'Montserrat',
+            fontFamily: 'Poppins',
             fontWeight: FontWeight.w400,
             color: Colors.redAccent,
           ),

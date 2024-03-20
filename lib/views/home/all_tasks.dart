@@ -7,8 +7,8 @@ import 'package:energy_services/helper/reusable_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ReportsScreen extends StatelessWidget {
-  const ReportsScreen({super.key});
+class ViewAllTasksScreen extends StatelessWidget {
+  const ViewAllTasksScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +24,7 @@ class ReportsScreen extends StatelessWidget {
                 return [
                   SliverAppBar(
                       // pinned: true, //stuck the view at the below AppBar
-                      floating: true, //stuck the view at the top of AppBar
+                      // floating: true, //stuck the view at the top of AppBar
                       automaticallyImplyLeading: false,
                       backgroundColor: Colors.transparent,
                       forceMaterialTransparency: true,
@@ -33,10 +33,10 @@ class ReportsScreen extends StatelessWidget {
                         Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Column(children: [
-                              const ReUsableAppbar(title: 'Reports'),
+                              const ReUsableAppbar(title: 'All Tasks'),
                               SizedBox(height: context.height * 0.02),
                               ReUsableTextField(
-                                hintText: 'Search Report',
+                                hintText: 'Search Task',
                                 suffixIcon: const Icon(Icons.search_sharp),
                               )
                             ]))
@@ -74,27 +74,13 @@ class ReportsScreen extends StatelessWidget {
                 ),
                 child: ListView(
                   children: [
-                    ReUsableContainer(
-                      child: ListTile(
-                        visualDensity: VisualDensity.compact,
-                        onTap: () {},
-                        leading: Icon(Icons.calendar_month,
-                            color: AppColors.blueTextColor),
-                        title: CustomTextWidget(
-                          text: 'Select Date',
-                          fontSize: 14.0,
-                        ),
-                        trailing: CustomTextWidget(
-                          text: 'Change',
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    ),
+                    Image.asset('assets/images/view-task.png',
+                        height: context.height * 0.15),
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 10,
-                      itemBuilder: (context, index) => const CustomReportCard(),
+                      itemBuilder: (context, index) => const CustomTaskCard(),
                     )
                   ],
                 ),
@@ -107,8 +93,8 @@ class ReportsScreen extends StatelessWidget {
   }
 }
 
-class CustomReportCard extends StatelessWidget {
-  const CustomReportCard({
+class CustomTaskCard extends StatelessWidget {
+  const CustomTaskCard({
     super.key,
   });
 
@@ -126,8 +112,9 @@ class CustomReportCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextWidget(
-                  text: 'Report ID: RP-2024001',
+                  text: 'Location: Factory A, Unit XYZ',
                   fontSize: 10.0,
+                  decoration: TextDecoration.underline,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -144,15 +131,31 @@ class CustomReportCard extends StatelessWidget {
                 )
               ],
             ),
+            Row(
+              children: [
+                Image.asset(
+                  'assets/images/construction-worker.png',
+                  height: 30.0,
+                  color: AppColors.blueTextColor,
+                ),
+                const SizedBox(width: 4.0),
+                CustomTextWidget(
+                  text: 'Journeyman: John Smith',
+                  fontSize: 16.0,
+                  fontWeight: FontWeight.w700,
+                ),
+              ],
+            ),
             CustomTextWidget(
-              text: 'Machine ID: MAC-12345',
+              text: 'Job Scope:',
               fontSize: 14.0,
               fontWeight: FontWeight.w500,
             ),
             CustomTextWidget(
-              text: 'Technician: John Doe',
-              fontSize: 14.0,
-              fontWeight: FontWeight.w500,
+              text: 'Engine Tune-Up and Set Point Specifications',
+              fontSize: 12.0,
+              fontWeight: FontWeight.w300,
+              maxLines: 2,
             ),
           ],
         ),

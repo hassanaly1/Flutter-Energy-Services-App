@@ -2,6 +2,7 @@ import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/views/auth/login.dart';
+import 'package:energy_services/views/auth/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -40,7 +41,6 @@ class StartScreen extends StatelessWidget {
                     text: 'Welcome To Energy Services',
                     fontSize: 16.0,
                     fontWeight: FontWeight.w700,
-                    textColor: AppColors.blueTextColor,
                   ),
                   CustomTextWidget(
                     text:
@@ -48,18 +48,17 @@ class StartScreen extends StatelessWidget {
                     fontSize: 12.0,
                     fontWeight: FontWeight.w500,
                     textAlign: TextAlign.center,
-                    textColor: AppColors.blueTextColor,
                     fontStyle: FontStyle.italic,
                     maxLines: 4,
                   ),
                   SizedBox(height: context.height * 0.1),
                   CustomButton(
                     buttonText: 'Login',
-                    onTap: () => Get.to(() => const LoginScreen()),
+                    onTap: () => Get.offAll(() => const LoginScreen()),
                   ),
                   CustomButton(
                       buttonText: 'Register',
-                      onTap: () {},
+                      onTap: () => Get.offAll(() => const SignupScreen()),
                       usePrimaryColor: true),
                 ],
               ),

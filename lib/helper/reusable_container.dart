@@ -1,8 +1,11 @@
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class ReUsableContainer extends StatelessWidget {
   final Widget child;
+  EdgeInsetsGeometry? padding;
+  double? verticalPadding;
   final bool showBackgroundShadow;
   final Color? color;
   double? height;
@@ -10,6 +13,8 @@ class ReUsableContainer extends StatelessWidget {
   ReUsableContainer({
     super.key,
     required this.child,
+    this.padding,
+    this.verticalPadding,
     this.height,
     this.showBackgroundShadow = true,
     this.color,
@@ -18,7 +23,8 @@ class ReUsableContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 4.0),
+      padding: EdgeInsets.symmetric(
+          vertical: verticalPadding ?? context.height * 0.01, horizontal: 4.0),
       child: _buildContainer(),
     );
   }
@@ -26,7 +32,8 @@ class ReUsableContainer extends StatelessWidget {
   Widget _buildContainer() {
     return Container(
       height: height,
-      padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 8.0),
+      padding: padding ??
+          const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       decoration: BoxDecoration(
         color: color ?? Colors.white,
         borderRadius: BorderRadius.circular(12.0),
@@ -36,9 +43,9 @@ class ReUsableContainer extends StatelessWidget {
                 : AppColors.lightGreyColor),
         boxShadow: showBackgroundShadow
             ? [
-                BoxShadow(
+                const BoxShadow(
                   color: Colors.black26,
-                  blurRadius: 10.0,
+                  blurRadius: 6.0,
                   spreadRadius: 1.0,
                 ),
                 const BoxShadow(

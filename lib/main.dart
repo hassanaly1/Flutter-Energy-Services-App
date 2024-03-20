@@ -1,4 +1,6 @@
+import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/splash.dart';
+import 'package:energy_services/views/home/new_task/new_task.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -13,10 +15,11 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Energy Services',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.primaryColor),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
+      debugShowCheckedModeBanner: false,
+      home: NewTaskScreenDemo(),
     );
   }
 }

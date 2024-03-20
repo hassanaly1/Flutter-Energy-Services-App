@@ -7,8 +7,8 @@ import 'package:energy_services/helper/reusable_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ReportsScreen extends StatelessWidget {
-  const ReportsScreen({super.key});
+class EnginesScreen extends StatelessWidget {
+  const EnginesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +33,10 @@ class ReportsScreen extends StatelessWidget {
                         Padding(
                             padding: const EdgeInsets.all(12.0),
                             child: Column(children: [
-                              const ReUsableAppbar(title: 'Reports'),
+                              const ReUsableAppbar(title: 'Engines'),
                               SizedBox(height: context.height * 0.02),
                               ReUsableTextField(
-                                hintText: 'Search Report',
+                                hintText: 'Search Records',
                                 suffixIcon: const Icon(Icons.search_sharp),
                               )
                             ]))
@@ -74,27 +74,11 @@ class ReportsScreen extends StatelessWidget {
                 ),
                 child: ListView(
                   children: [
-                    ReUsableContainer(
-                      child: ListTile(
-                        visualDensity: VisualDensity.compact,
-                        onTap: () {},
-                        leading: Icon(Icons.calendar_month,
-                            color: AppColors.blueTextColor),
-                        title: CustomTextWidget(
-                          text: 'Select Date',
-                          fontSize: 14.0,
-                        ),
-                        trailing: CustomTextWidget(
-                          text: 'Change',
-                          fontSize: 12.0,
-                        ),
-                      ),
-                    ),
                     ListView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: 10,
-                      itemBuilder: (context, index) => const CustomReportCard(),
+                      itemBuilder: (context, index) => const CustomEngineCard(),
                     )
                   ],
                 ),
@@ -102,6 +86,52 @@ class ReportsScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class CustomEngineCard extends StatelessWidget {
+  const CustomEngineCard({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ReUsableContainer(
+      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
+      child: ListTile(
+        contentPadding: EdgeInsets.zero,
+        onTap: () {},
+        leading: ClipRRect(
+          borderRadius: BorderRadius.circular(8.0),
+          child: Image.network(
+            'https://img.freepik.com/premium-photo/3d-car-engine-hd-8k-wallpaper-stock-photographic-image_890746-42633.jpg?w=360',
+            width: 100,
+            fit: BoxFit.cover,
+          ),
+        ),
+        title: CustomTextWidget(
+          text: 'Detroit Diesel DD15 ',
+          fontSize: 14.0,
+        ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            CustomTextWidget(
+              text: 'Diesel Engines',
+              fontSize: 14.0,
+            ),
+            CustomTextWidget(
+              text: '2007',
+              fontSize: 12.0,
+            ),
+          ],
+        ),
+        // trailing: CustomTextWidget(
+        //     text: 'Change',
+        //     fontSize: 12.0,
+        //     textColor: AppColors.blueTextColor),
       ),
     );
   }

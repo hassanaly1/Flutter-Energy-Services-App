@@ -60,14 +60,12 @@ class SignupScreen extends StatelessWidget {
                           text: 'Register Account',
                           fontSize: 20.0,
                           fontWeight: FontWeight.w700,
-                          textColor: AppColors.blueTextColor,
                         ),
                         CustomTextWidget(
                           text: 'Fill the Details to register your account',
                           fontSize: 12.0,
                           fontWeight: FontWeight.w500,
                           textAlign: TextAlign.center,
-                          textColor: AppColors.blueTextColor,
                           fontStyle: FontStyle.italic,
                           maxLines: 4,
                         ),
@@ -129,7 +127,7 @@ class SignupScreen extends StatelessWidget {
                               TextSpan(
                                 text: 'Already have a account? ',
                                 style: const TextStyle(
-                                    fontFamily: 'Montserrat',
+                                    fontFamily: 'Poppins',
                                     fontWeight: FontWeight.w500,
                                     fontSize: 12.0),
                                 children: [
@@ -137,7 +135,7 @@ class SignupScreen extends StatelessWidget {
                                     text: 'Login',
                                     style: TextStyle(
                                         color: AppColors.blueTextColor,
-                                        fontFamily: 'Montserrat',
+                                        fontFamily: 'Poppins',
                                         fontWeight: FontWeight.w500,
                                         fontSize: 14.0),
                                   ),
