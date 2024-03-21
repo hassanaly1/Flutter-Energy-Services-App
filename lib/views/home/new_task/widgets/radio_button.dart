@@ -29,7 +29,7 @@ class CustomRadioButton extends StatelessWidget {
             return Row(
               children: [
                 Obx(
-                  () => Radio<String>(
+                  () => Radio(
                     activeColor: AppColors.blueTextColor,
                     value: option,
                     groupValue: selectedOption.value,

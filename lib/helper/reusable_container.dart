@@ -6,6 +6,7 @@ class ReUsableContainer extends StatelessWidget {
   final Widget child;
   EdgeInsetsGeometry? padding;
   double? verticalPadding;
+  double? borderRadius;
   final bool showBackgroundShadow;
   final Color? color;
   double? height;
@@ -16,6 +17,7 @@ class ReUsableContainer extends StatelessWidget {
     this.padding,
     this.verticalPadding,
     this.height,
+    this.borderRadius,
     this.showBackgroundShadow = true,
     this.color,
   });
@@ -24,7 +26,7 @@ class ReUsableContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-          vertical: verticalPadding ?? context.height * 0.01, horizontal: 4.0),
+          vertical: verticalPadding ?? context.height * 0.015, horizontal: 4.0),
       child: _buildContainer(),
     );
   }
@@ -36,7 +38,7 @@ class ReUsableContainer extends StatelessWidget {
           const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
       decoration: BoxDecoration(
         color: color ?? Colors.white,
-        borderRadius: BorderRadius.circular(12.0),
+        borderRadius: BorderRadius.circular(borderRadius ?? 12.0),
         border: Border.all(
             color: showBackgroundShadow
                 ? Colors.transparent
