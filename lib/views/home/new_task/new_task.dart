@@ -48,6 +48,8 @@ class NewTaskScreen extends StatelessWidget {
             body: DefaultTabController(
               length: 4,
               child: CustomScrollView(
+                shrinkWrap: true,
+                physics: const AlwaysScrollableScrollPhysics(),
                 controller: controller.scrollController,
                 slivers: [
                   TopSection(controller: controller),
@@ -74,8 +76,9 @@ class TopSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverAppBar(
       snap: false,
-      pinned: true,
+      pinned: false,
       floating: true,
+      stretch: true,
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         // Custom app bar title widget
@@ -159,10 +162,10 @@ class BottomPageViewSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => SliverFillRemaining(
-        hasScrollBody: false,
-        fillOverscroll: true,
+        hasScrollBody: true,
+        fillOverscroll: false,
         child: IndexedStack(
-          sizing: StackFit.expand,
+          sizing: StackFit.loose,
           index: controller.activePageIndex.value,
           children: [
             CustomStepperBody1(),

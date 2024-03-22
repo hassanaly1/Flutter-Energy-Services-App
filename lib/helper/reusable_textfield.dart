@@ -11,6 +11,7 @@ class ReUsableTextField extends StatelessWidget {
   Widget? suffixIcon;
   TextInputType? keyboardType;
   TextEditingController? controller;
+  void Function(String)? onChanged;
   bool obscureText;
   final String? Function(String?)? validator;
   final bool showBackgroundShadow;
@@ -23,6 +24,7 @@ class ReUsableTextField extends StatelessWidget {
       this.maxLines = 1,
       this.keyboardType,
       this.controller,
+      this.onChanged,
       this.obscureText = false,
       this.showBackgroundShadow = true,
       this.validator});
@@ -37,6 +39,7 @@ class ReUsableTextField extends StatelessWidget {
         // textAlignVertical: TextAlignVertical.bottom,
         //  onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         controller: controller,
+        onChanged: onChanged,
         validator: validator,
         maxLines: maxLines,
         obscureText: obscureText,

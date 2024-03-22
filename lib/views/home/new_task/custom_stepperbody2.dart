@@ -1,5 +1,6 @@
 import 'package:energy_services/controllers/task_controllers.dart';
 import 'package:energy_services/helper/appcolors.dart';
+import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
@@ -27,8 +28,7 @@ class CustomStepperBody2 extends StatelessWidget {
           topRight: Radius.circular(40.0),
         ),
       ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
+      child: ListView(
         children: [
           ReUsableContainer(
               color: AppColors.blueTextColor,
@@ -37,6 +37,7 @@ class CustomStepperBody2 extends StatelessWidget {
                 text: 'Engine Running Checks',
                 textColor: Colors.white,
               )),
+          //Engine Load Factor
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -66,6 +67,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //Exhaust Gas Sample
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -117,6 +119,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //Fuel Quality
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -134,6 +137,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //Cylinder Exhaust Pyrometer
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -229,6 +233,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //Turbo Temperatures
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -303,6 +308,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //MissFireDetected
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -316,6 +322,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //BurnTimes
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -398,6 +405,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //Throttle  & Fuel Value Position
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -416,6 +424,7 @@ class CustomStepperBody2 extends StatelessWidget {
               ],
             ),
           ),
+          //Engine Oil
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -423,7 +432,10 @@ class CustomStepperBody2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const ContainerHeading(heading: 'Engine Oil'),
-                HeadingAndTextfield(title: 'Engine Oil Pressure (PSI)'),
+                HeadingAndTextfield(
+                  title: 'Engine Oil Pressure (PSI)',
+                  controller: controller.engineOilPressure,
+                ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -431,46 +443,68 @@ class CustomStepperBody2 extends StatelessWidget {
                       text: 'Oil Pressure Differential Across Oil Filter',
                       fontWeight: FontWeight.w600,
                     ),
-                    Row(
-                      children: [
-                        Flexible(
+                    Obx(
+                      () => Row(
+                        children: [
+                          Flexible(
                             child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 4.0),
-                                child: ReUsableTextField(
-                                  hintText: 'Value',
-                                ))),
-                        Flexible(
-                          child: Row(
-                            children: [
-                              Radio(
-                                activeColor: AppColors.blueTextColor,
-                                value: 'NA',
-                                groupValue: controller.selectedLocation.value,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 4.0),
+                              child: ReUsableTextField(
+                                hintText: 'Value',
+                                controller:
+                                    controller.oilPressureDifferentialTextField,
                                 onChanged: (value) {
-                                  controller.selectedLocation.value = value!;
+                                  controller.oilPressureDifferential.value =
+                                      value;
                                 },
                               ),
-                              CustomTextWidget(text: 'NA', fontSize: 14.0),
-                            ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Flexible(
+                            child: Row(
+                              children: [
+                                Radio(
+                                  activeColor: AppColors.blueTextColor,
+                                  value: 'NA',
+                                  groupValue:
+                                      controller.oilPressureDifferential.value,
+                                  onChanged: (value) {
+                                    if (value == 'NA') {
+                                      controller.oilPressureDifferential.value =
+                                          value!;
+                                      controller
+                                          .oilPressureDifferentialTextField
+                                          .clear();
+                                    }
+                                  },
+                                ),
+                                CustomTextWidget(text: 'NA', fontSize: 14.0),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
-                const InOutWidget(heading: 'Oil temperature'),
+                InOutWidget(
+                  heading: 'Oil temperature',
+                  inController: controller.oilPressureIn,
+                  outController: controller.oilPressureOut,
+                ),
                 CustomRadioButton(
                     options: const [
                       'LOW',
                       'GOOD',
                       'HIGH',
                     ],
-                    selectedOption: controller.selectedBtuValue,
+                    selectedOption: controller.oilLevelEngine,
                     heading: 'Oil Level Engine')
               ],
             ),
           ),
+          //Engine Coolent
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -478,25 +512,12 @@ class CustomStepperBody2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const ContainerHeading(heading: 'Engine Coolant'),
-                Row(
-                  children: [
-                    Flexible(
-                      child:
-                          HeadingAndTextfield(title: 'Engine Coolent Pressure'),
-                    ),
-                    Flexible(
-                      child: CustomRadioButton(
-                          options: const ['PSI'],
-                          selectedOption: controller.selectedBtuValue,
-                          heading: ''),
-                    ),
-                    Flexible(
-                      child: CustomRadioButton(
-                          options: const ['KPA'],
-                          selectedOption: controller.selectedBtuValue,
-                          heading: ''),
-                    ),
-                  ],
+                TextfieldWithRadioButtons(
+                  heading: 'Engine Coolant Pressure',
+                  val1: 'PSI',
+                  val2: 'KPA',
+                  textController: controller.engineCoolentPressure,
+                  radioController: controller.engineCoolentPressureRadioValue,
                 ),
                 CustomRadioButton(
                     options: const [
@@ -504,11 +525,12 @@ class CustomStepperBody2 extends StatelessWidget {
                       'GOOD',
                       'HIGH',
                     ],
-                    selectedOption: controller.selectedBtuValue,
+                    selectedOption: controller.jacketWaterLevel,
                     heading: 'Jacket Water Level')
               ],
             ),
           ),
+          //Auxiliary Coolant
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -522,26 +544,33 @@ class CustomStepperBody2 extends StatelessWidget {
                       'GOOD',
                       'HIGH',
                     ],
-                    selectedOption: controller.selectedBtuValue,
+                    selectedOption: controller.auxiliaryCoolantlevel,
                     heading: 'Auxiliary Coolant level')
               ],
             ),
           ),
+          //JacketWaterTemperatures
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
-            child: const Column(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                ContainerHeading(heading: 'Jacket Water Temperatures'),
+                const ContainerHeading(heading: 'Jacket Water Temperatures'),
                 InOutWidget(
                   heading: 'Jacketwater Temperatures In & Out (C/F)',
+                  inController: controller.jacketWaterTemperaturesIn,
+                  outController: controller.jacketWaterTemperaturesOut,
                 ),
                 InOutWidget(
-                    heading: 'Aux. Coolant Temperatures In & Out (C/F)'),
+                  heading: 'Aux. Coolant Temperatures In & Out (C/F)',
+                  inController: controller.auxCoolentTemperaturesIn,
+                  outController: controller.auxCoolentTemperaturesOut,
+                ),
               ],
             ),
           ),
+          //Air Intakes
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -550,17 +579,27 @@ class CustomStepperBody2 extends StatelessWidget {
               children: [
                 const ContainerHeading(heading: 'Air Intake'),
                 TextfieldWithRadioButtons(
-                  controller: controller,
                   heading: 'Inlet Air Temp',
+                  val1: 'C',
+                  val2: 'F',
+                  textController: controller.inletAirTempTextfield,
+                  radioController: controller.inletAirTempRadio,
                 ),
                 TextfieldWithRadioButtons(
-                  controller: controller,
                   heading: 'Inlet Air Pressure',
+                  val1: 'PSI',
+                  val2: 'KPA',
+                  textController: controller.inletAirPressureTextfield,
+                  radioController: controller.inletAirPressureRadio,
                 ),
-                HeadingAndTextfield(title: 'Primary Fuel Pressure (PSI)'),
+                HeadingAndTextfield(
+                  title: 'Primary Fuel Pressure (PSI)',
+                  controller: controller.primaryFuelPressure,
+                ),
               ],
             ),
           ),
+          //Air/Fuel Ratio & Crankcase Pressure
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -569,19 +608,29 @@ class CustomStepperBody2 extends StatelessWidget {
               children: [
                 const ContainerHeading(
                     heading: 'Air/Fuel Ratio & Crankcase Pressure'),
-                HeadingAndTextfield(title: 'Actual Air to Fuel Ratio (%)'),
-                HeadingAndTextfield(title: 'Crankcase Pressure / Vacuum'),
+                HeadingAndTextfield(
+                  title: 'Actual Air to Fuel Ratio (%)',
+                  controller: controller.actualAirToFuelRatio,
+                ),
+                HeadingAndTextfield(
+                  title: 'Crankcase Pressure / Vacuum',
+                  controller: controller.crankcasePressure,
+                ),
                 TextfieldWithRadioButtons(
-                  controller: controller,
                   heading: 'Airfilter Restriction',
+                  val1: 'RB',
+                  val2: 'LB',
+                  textController: controller.airFilterRestrictionTextfield,
+                  radioController: controller.airFilterRestrictionRadio,
                 ),
                 CustomRadioButton(
                     options: const ['LOW', 'GOOD', 'HIGH', 'NA'],
-                    selectedOption: controller.selectedLocation,
+                    selectedOption: controller.hydrolicOil,
                     heading: 'Hydraulic Oil')
               ],
             ),
           ),
+          //Leaks Found
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
@@ -591,51 +640,113 @@ class CustomStepperBody2 extends StatelessWidget {
                 const ContainerHeading(heading: 'Leaks Found'),
                 CustomRadioButton(
                     options: const ['yes', 'no'],
-                    selectedOption: controller.selectedLocation,
+                    selectedOption: controller.leaksFound,
                     heading: 'Any Leaks Found?'),
                 CustomTextWidget(text: 'If yes then describe'),
-                const CheckboxWithTextfield(heading: 'Oil'),
-                const CheckboxWithTextfield(heading: 'Coolant'),
-                const CheckboxWithTextfield(heading: 'Gass'),
-                const CheckboxWithTextfield(heading: 'Exhaust'),
-                const CheckboxWithTextfield(heading: 'Air'),
+                CheckboxWithTextfield(
+                  heading: 'Oil',
+                  isSelected: controller.isOilSelected,
+                  controller: controller.oilDescription,
+                ),
+                CheckboxWithTextfield(
+                  heading: 'Coolant',
+                  isSelected: controller.isCoolantSelected,
+                  controller: controller.coolantDescription,
+                ),
+                CheckboxWithTextfield(
+                  heading: 'Gass',
+                  isSelected: controller.isGassSelected,
+                  controller: controller.gassDescription,
+                ),
+                CheckboxWithTextfield(
+                  heading: 'Exhaust',
+                  isSelected: controller.isExhaustSelected,
+                  controller: controller.exhaustDescription,
+                ),
+                CheckboxWithTextfield(
+                  heading: 'Air',
+                  isSelected: controller.isAirSelected,
+                  controller: controller.airDescription,
+                ),
               ],
             ),
           ),
+          //Excessive vibration & odd noises
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const ContainerHeading(
-                    heading: 'Excessive vibration & odd noises'),
-                CustomRadioButton(
+            child: Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const ContainerHeading(
+                      heading: 'Excessive vibration & odd noises'),
+                  CustomRadioButton(
                     options: const ['yes', 'no'],
-                    selectedOption: controller.selectedLocation,
-                    heading: 'Excessive vibration & odd noises?'),
-                CustomTextWidget(text: 'If yes then describe'),
-                ReUsableTextField(
+                    selectedOption: controller.excessiveVibrationAndOddNoises,
+                    heading: 'Excessive vibration & odd noises?',
+                  ),
+                  CustomTextWidget(text: 'If yes then describe'),
+                  ReUsableTextField(
                     maxLines: 3,
-                    hintText: 'Describe Excessive Vibration & Odd Noices')
-              ],
+                    hintText: 'Describe Excessive Vibration & Odd Noises',
+                    showBackgroundShadow:
+                        controller.excessiveVibrationAndOddNoises.value ==
+                            'yes',
+                    readOnly:
+                        controller.excessiveVibrationAndOddNoises.value == 'no',
+                    controller:
+                        controller.excessiveVibrationAndOddNoisesDescription,
+                  ),
+                ],
+              ),
             ),
           ),
+          //Problems with Driver
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const ContainerHeading(heading: 'Problems with Driver'),
-                CustomRadioButton(
+            child: Obx(
+              () => Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const ContainerHeading(heading: 'Problems with Driver'),
+                  CustomRadioButton(
                     options: const ['yes', 'no'],
-                    selectedOption: controller.selectedLocation,
-                    heading:
-                        'Problem found with Driver during running checks?'),
-                CustomTextWidget(text: 'If yes then describe'),
-                ReUsableTextField(maxLines: 3, hintText: 'Describe Issues')
-              ],
+                    selectedOption: controller.problemsWithDriver,
+                    heading: 'Problem found with Driver during running checks?',
+                  ),
+                  CustomTextWidget(text: 'If yes then describe'),
+                  ReUsableTextField(
+                    maxLines: 3,
+                    hintText:
+                        'Describe Problem found with Driver during running checks',
+                    showBackgroundShadow:
+                        controller.problemsWithDriver.value == 'yes',
+                    readOnly: controller.problemsWithDriver.value == 'no',
+                    controller: controller.problemsWithDriverDescription,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CustomButton(
+                            buttonText: 'BACK',
+                            usePrimaryColor: true,
+                            onTap: () {
+                              controller.previousPage();
+                            }),
+                      ),
+                      Expanded(
+                        child: CustomButton(
+                            buttonText: 'Next',
+                            onTap: () {
+                              controller.nextPage();
+                            }),
+                      ),
+                    ],
+                  )
+                ],
+              ),
             ),
           ),
         ],
@@ -646,8 +757,8 @@ class CustomStepperBody2 extends StatelessWidget {
 
 class NumberWithTextField extends StatelessWidget {
   final String number;
-  TextEditingController? controller;
-  NumberWithTextField({super.key, required this.number, this.controller});
+  final TextEditingController? controller;
+  const NumberWithTextField({super.key, required this.number, this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -663,46 +774,61 @@ class NumberWithTextField extends StatelessWidget {
 
 class CheckboxWithTextfield extends StatelessWidget {
   final String heading;
-  const CheckboxWithTextfield({
-    super.key,
-    required this.heading,
-  });
+  final TextEditingController? controller;
+  final RxBool isSelected;
+  const CheckboxWithTextfield(
+      {super.key,
+      required this.heading,
+      this.controller,
+      required this.isSelected});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SizedBox(
-          width: 100,
-          child: Column(
-            children: [
-              CustomTextWidget(text: heading),
-              Checkbox(
-                value: true,
-                onChanged: (value) {},
-              ),
-            ],
+    return Obx(
+      () => Row(
+        children: [
+          SizedBox(
+            width: 100,
+            child: Column(
+              children: [
+                CustomTextWidget(text: heading),
+                Checkbox(
+                  value: isSelected.value,
+                  onChanged: (value) {
+                    isSelected.value = value!;
+                  },
+                ),
+              ],
+            ),
           ),
-        ),
-        Flexible(
-            child: ReUsableTextField(
-          hintText: 'Description',
-          maxLines: 2,
-        ))
-      ],
+          Flexible(
+              child: ReUsableTextField(
+            hintText: 'Description',
+            maxLines: 2,
+            controller: controller,
+            showBackgroundShadow: isSelected.value ? true : false,
+            readOnly: isSelected.value ? false : true,
+          ))
+        ],
+      ),
     );
   }
 }
 
 class TextfieldWithRadioButtons extends StatelessWidget {
   final String heading;
+  final String val1;
+  final String val2;
+  final TextEditingController? textController;
+  final RxString? radioController;
   const TextfieldWithRadioButtons({
     super.key,
-    required this.controller,
     required this.heading,
+    this.textController,
+    this.radioController,
+    required this.val1,
+    required this.val2,
   });
-
-  final AddTaskController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -714,42 +840,25 @@ class TextfieldWithRadioButtons extends StatelessWidget {
           fontWeight: FontWeight.w600,
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Flexible(
-                child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 4.0),
-                    child: ReUsableTextField(
-                      hintText: 'Value',
-                    ))),
-            Flexible(
-              child: Row(
-                children: [
-                  Radio(
-                    activeColor: AppColors.blueTextColor,
-                    value: 'F',
-                    groupValue: controller.selectedLocation.value,
-                    onChanged: (value) {
-                      controller.selectedLocation.value = value!;
-                    },
-                  ),
-                  CustomTextWidget(text: 'F', fontSize: 14.0),
-                ],
+              child: ReUsableTextField(
+                hintText: 'Value',
+                controller: textController,
               ),
             ),
             Flexible(
-              child: Row(
-                children: [
-                  Radio(
-                    activeColor: AppColors.blueTextColor,
-                    value: 'F',
-                    groupValue: controller.selectedLocation.value,
-                    onChanged: (value) {
-                      controller.selectedLocation.value = value!;
-                    },
-                  ),
-                  CustomTextWidget(text: 'F', fontSize: 14.0),
-                ],
-              ),
+              child: CustomRadioButton(
+                  options: [val1],
+                  selectedOption: radioController!,
+                  heading: ''),
+            ),
+            Flexible(
+              child: CustomRadioButton(
+                  options: [val2],
+                  selectedOption: radioController!,
+                  heading: ''),
             ),
           ],
         ),
@@ -760,10 +869,13 @@ class TextfieldWithRadioButtons extends StatelessWidget {
 
 class InOutWidget extends StatelessWidget {
   final String heading;
-  const InOutWidget({
-    super.key,
-    required this.heading,
-  });
+  final TextEditingController? inController;
+  final TextEditingController? outController;
+  const InOutWidget(
+      {super.key,
+      required this.heading,
+      this.inController,
+      this.outController});
 
   @override
   Widget build(BuildContext context) {
@@ -781,12 +893,14 @@ class InOutWidget extends StatelessWidget {
               child: HeadingAndTextfieldInRow(
                 title: 'In',
                 hintText: 'Value',
+                controller: inController,
               ),
             ),
             Flexible(
               child: HeadingAndTextfieldInRow(
                 title: 'Out',
                 hintText: 'Value',
+                controller: outController,
               ),
             ),
           ],

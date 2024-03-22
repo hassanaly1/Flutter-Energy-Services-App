@@ -22,26 +22,28 @@ class CustomRadioButton extends StatelessWidget {
         CustomTextWidget(
           text: heading,
           fontWeight: FontWeight.w600,
+          maxLines: 2,
         ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: options.map((option) {
-            return Row(
-              children: [
-                Obx(
-                  () => Radio(
+        Obx(
+          () => Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: options.map((option) {
+              return Row(
+                children: [
+                  Radio(
+                    visualDensity: VisualDensity.compact,
                     activeColor: AppColors.blueTextColor,
                     value: option,
                     groupValue: selectedOption.value,
                     onChanged: (value) {
-                      selectedOption.value = value!;
+                      selectedOption.value = value.toString();
                     },
                   ),
-                ),
-                CustomTextWidget(text: option, fontSize: 14.0),
-              ],
-            );
-          }).toList(),
+                  CustomTextWidget(text: option, fontSize: 11.0),
+                ],
+              );
+            }).toList(),
+          ),
         ),
       ],
     );

@@ -33,6 +33,7 @@ class HeadingAndTextfield extends StatelessWidget {
           CustomTextWidget(
             text: title,
             fontWeight: FontWeight.w600,
+            maxLines: 2,
           ),
           ReUsableTextField(
             controller: controller,
@@ -82,6 +83,7 @@ class HeadingAndTextfieldInRow extends StatelessWidget {
             text: title,
             fontWeight: FontWeight.w600,
             fontSize: 12.0,
+            maxLines: 2,
           ),
           const SizedBox(width: 10.0),
           Flexible(

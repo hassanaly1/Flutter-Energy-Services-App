@@ -1,5 +1,8 @@
+import 'package:energy_services/models/single_part_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
+import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class AddTaskController extends GetxController {
   var activePageIndex = 0.obs;
@@ -23,7 +26,10 @@ class AddTaskController extends GetxController {
     });
   }
 
+  //-----------------------------------------------------------------------//
+
   //Page1
+
   RxString oilSamplesTaken = ''.obs;
   RxString unitOnlineOnArrival = ''.obs;
   RxString selectedLocation = ''.obs;
@@ -39,7 +45,10 @@ class AddTaskController extends GetxController {
   TextEditingController serialNumber = TextEditingController();
   TextEditingController arrangementNumber = TextEditingController();
 
+  //-----------------------------------------------------------------------//
+
   //Page2
+
   //Engine Load Factor
   TextEditingController engineLoad = TextEditingController();
   TextEditingController engineRPM = TextEditingController();
@@ -110,19 +119,22 @@ class AddTaskController extends GetxController {
   TextEditingController burnTemperature11 = TextEditingController();
   TextEditingController burnTemperature12 = TextEditingController();
 
-  //Throttle  & Fuel lValve Position
+  //Throttle  & Fuel Value Position
   TextEditingController throttleActuatorPosition = TextEditingController();
   TextEditingController fuelValue = TextEditingController();
 
   //Engine Oil
   TextEditingController engineOilPressure = TextEditingController();
   RxString oilPressureDifferential = ''.obs; //RadioButton
+  TextEditingController oilPressureDifferentialTextField =
+      TextEditingController();
   TextEditingController oilPressureIn = TextEditingController();
   TextEditingController oilPressureOut = TextEditingController();
   RxString oilLevelEngine = ''.obs; //RadioButton
 
   //Engine Coolent
   TextEditingController engineCoolentPressure = TextEditingController();
+  RxString engineCoolentPressureRadioValue = ''.obs; //RadioButton
   RxString jacketWaterLevel = ''.obs; //RadioButton
 
   //Auxiliary Coolant
@@ -135,36 +147,167 @@ class AddTaskController extends GetxController {
   TextEditingController auxCoolentTemperaturesOut = TextEditingController();
 
   //Air Intakes
-  RxString inletAirTemp = ''.obs; //RadioButton
-  RxString inletAirPressure = ''.obs; //RadioButton
+  TextEditingController inletAirTempTextfield = TextEditingController();
+  RxString inletAirTempRadio = ''.obs; //RadioButton
+  TextEditingController inletAirPressureTextfield = TextEditingController();
+  RxString inletAirPressureRadio = ''.obs; //RadioButton
   TextEditingController primaryFuelPressure = TextEditingController();
 
   //Air/Fuel Ratio & Crankcase Pressure
   TextEditingController actualAirToFuelRatio = TextEditingController();
   TextEditingController crankcasePressure = TextEditingController();
-  RxString airFilterRestriction = ''.obs; //RadioButton
+  TextEditingController airFilterRestrictionTextfield = TextEditingController();
+  RxString airFilterRestrictionRadio = ''.obs; //RadioButton
   RxString hydrolicOil = ''.obs; //RadioButton
 
   //Leaks Found
   RxString leaksFound = ''.obs; //RadioButton
+  RxBool isOilSelected = false.obs;
   TextEditingController oilDescription = TextEditingController();
+  RxBool isCoolantSelected = false.obs;
   TextEditingController coolantDescription = TextEditingController();
+  RxBool isGassSelected = false.obs;
   TextEditingController gassDescription = TextEditingController();
+  RxBool isExhaustSelected = false.obs;
   TextEditingController exhaustDescription = TextEditingController();
+  RxBool isAirSelected = false.obs;
   TextEditingController airDescription = TextEditingController();
 
   //Excessive vibration & odd noises
-  RxString excessiveVibrationAndOddNoises = ''.obs; //RadioButton
+  RxString excessiveVibrationAndOddNoises = 'no'.obs; //RadioButton
   TextEditingController excessiveVibrationAndOddNoisesDescription =
       TextEditingController();
 
   //Problems with Driver
-  RxString problemsWithDriver = ''.obs; //RadioButton
+  RxString problemsWithDriver = 'no'.obs; //RadioButton
   TextEditingController problemsWithDriverDescription = TextEditingController();
+
+  //-----------------------------------------------------------------------//
 
   //Page3
 
+  // Hot Compression Test
+  TextEditingController hotCompressionTemperature1 = TextEditingController();
+  TextEditingController hotCompressionTemperature2 = TextEditingController();
+  TextEditingController hotCompressionTemperature3 = TextEditingController();
+  TextEditingController hotCompressionTemperature4 = TextEditingController();
+  TextEditingController hotCompressionTemperature5 = TextEditingController();
+  TextEditingController hotCompressionTemperature6 = TextEditingController();
+  TextEditingController hotCompressionTemperature7 = TextEditingController();
+  TextEditingController hotCompressionTemperature8 = TextEditingController();
+  TextEditingController hotCompressionTemperature9 = TextEditingController();
+  TextEditingController hotCompressionTemperature10 = TextEditingController();
+  TextEditingController hotCompressionTemperature11 = TextEditingController();
+  TextEditingController hotCompressionTemperature12 = TextEditingController();
+
+  //Value Set
+  TextEditingController intakeValueSet = TextEditingController();
+  RxString intakeValueSetRadioValue = ''.obs; //RadioButton
+  TextEditingController exhaustValueSet = TextEditingController();
+  RxString exhaustValueSetRadioValue = ''.obs; //RadioButton
+  RxString majorValueRecessionDetected = ''.obs; //RadioButton
+  RxString boroscopeRecommended = ''.obs; //RadioButton
+  RxString boroscopeInspectionCompleted = ''.obs; //RadioButton
+
+  //Sparkplugs
+  RxString installNewWires = ''.obs; //RadioButton
+  TextEditingController sparkplugGap = TextEditingController();
+  RxString sparkplugExtensionInstalled = ''.obs; //RadioButton
+  RxString newExtensionInstalled = ''.obs; //RadioButton
+  TextEditingController listOfNewExtensionInstalled = TextEditingController();
+  RxString sparkplugWireCondition = ''.obs; //RadioButton
+  TextEditingController listOfSparkplugWireCondition = TextEditingController();
+
+  //Connections
+  RxString cannonPlugConnectorsTight = ''.obs; //RadioButton
+  TextEditingController listOfTransformerCoilsReplaced =
+      TextEditingController();
+
+  //Crankcase
+  RxString crankcaseBreatherInspection = ''.obs; //RadioButton
+  RxString newBreatherElementInstalled = ''.obs; //RadioButton
+
+  // Belts and Coolers
+  RxString checkAllCanonFan = ''.obs; //RadioButton
+  TextEditingController listOfCheckAllCanonFan = TextEditingController();
+
+  // Coolant System Check
+  RxString coolantSystemCheck = ''.obs; //RadioButton
+
+  // Lubrication System Check
+  RxString lubricationSystemCheck = ''.obs; //RadioButton
+
+  //Cooling System Check
+  RxString coolingSystemCheck = ''.obs; //RadioButton
+
+  //Fuel System Inspection
+  RxString checkFuelGasFilter = ''.obs; //RadioButton
+  RxString fuelGasFilterFound = ''.obs; //RadioButton
+
+  //Air Filter Inspection
+  RxString airFilterInspection = ''.obs; //RadioButton
+
+  //Turbocharger Inspection
+  RxString turboChargerInspection = ''.obs; //RadioButton
+
+  //Carburetor and Fuel Injection Inspection
+  RxString carburetorInternalCleaningInspection = ''.obs; //RadioButton
+
+  //Engine Oil Maintenance
+  RxString engineOilFilterChange = ''.obs; //RadioButton
+  RxString engineOilFilterChange2 = ''.obs; //RadioButton
+  RxString oilCoolerDrained = ''.obs; //RadioButton
+
+  //Hydraulic System Check
+  RxString hydraulicOilFilterChange = ''.obs; //RadioButton
+  RxString hydraulicOilNew = ''.obs; //RadioButton
+
+  //Miscellaneous Checks
+  RxString engineOilSystemPrimed = ''.obs; //RadioButton
+  RxString oilDrainIsolationValvesShutIn = ''.obs; //RadioButton
+  RxString dayTankFiltersInstalledNew = ''.obs; //RadioButton
+  RxString dayTankValvesOpen = ''.obs; //RadioButton
+
+//-----------------------------------------------------------------------//
+
   //Page4
+
+  //   Oil Pressure and Level Check
+  RxString oilPressureEngineAndGood = ''.obs; //RadioButton
+  RxString engineOilLevel = ''.obs; //RadioButton
+
+  //   Coolant System Check
+  RxString jacketWaterCoolantLevel = ''.obs; //RadioButton
+  RxString auxiliaryCoolantLevel = ''.obs; //RadioButton
+
+  //   Temperature and Pressure Check
+  RxString allTempsAndPressuresStableAndNormalRanges = ''.obs; //RadioButton
+
+  //   Noise and Vibration Check
+  RxString noisesOrVibrationsDetected = ''.obs; //RadioButton
+
+  //   Exhaust Gas and Manifold Pressure
+  RxString engineExhaustGasCheckedAndAdjustedAtMaxLoad = ''.obs; //RadioButton
+  TextEditingController documentFinalSetPointExhaustGasOxygenOrCOLevels =
+      TextEditingController();
+  TextEditingController documentFinalManifoldPressureAndRPM =
+      TextEditingController();
+
+  //   Engine Deficiencies for Future Repairs
+  RxString engineDeficienciesRadio = 'no'.obs; //RadioButton
+  TextEditingController engineDeficienciesTextfield = TextEditingController();
+
+  //   Parts Ordering Status
+  RxString partsOrderingStatus = ''.obs; //RadioButton
+
+  //   Add Parts in Table
+  TextEditingController partName = TextEditingController();
+  TextEditingController partDescription = TextEditingController();
+  TextEditingController partQuantity = TextEditingController();
+  TextEditingController partVendor = TextEditingController();
+
+  //   List of Parts
+  List<SinglePartModel> partsList = <SinglePartModel>[].obs;
 
   void setActivePage(int index) {
     activePageIndex.value = index;
