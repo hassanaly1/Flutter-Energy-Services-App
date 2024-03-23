@@ -15,7 +15,7 @@ class ProfileScreen extends StatelessWidget {
         body: SingleChildScrollView(
           child: Column(
             children: [
-              ProfileHeader(),
+              const ProfileHeader(),
               CustomTextWidget(
                 text: 'James Anderson',
                 fontWeight: FontWeight.w500,

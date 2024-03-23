@@ -30,7 +30,7 @@ class HomeScreen extends StatelessWidget {
                 ),
                 Center(
                   child: Image.asset('assets/images/applogo-light.png',
-                      height: context.height * 0.2, fit: BoxFit.cover),
+                      height: context.height * 0.1, fit: BoxFit.cover),
                 ),
                 Expanded(
                   child: Container(
@@ -205,7 +205,7 @@ class DashboardCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(child: Image.asset(image, height: context.height * 0.15))
+              Expanded(child: Image.asset(image, height: context.height * 0.18))
             ],
           ),
         ),

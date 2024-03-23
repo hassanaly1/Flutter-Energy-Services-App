@@ -4,6 +4,7 @@ import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
+import 'package:energy_services/helper/toast.dart';
 import 'package:energy_services/views/home/new_task/custom_stepperbody2.dart';
 import 'package:energy_services/views/home/new_task/widgets/heading&textfield.dart';
 import 'package:energy_services/views/home/new_task/widgets/radio_button.dart';
@@ -47,78 +48,41 @@ class CustomStepperBody3 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const ContainerHeading(heading: 'Hot Compression Test'),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '1 ',
-                      controller: controller.hotCompressionTemperature1,
-                    ),
-                    NumberWithTextField(
-                      number: '2 ',
-                      controller: controller.hotCompressionTemperature2,
-                    ),
-                  ],
+                Obx(
+                  () => GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount:
+                        controller.hotCompressionTemperatureControllers.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 0.0,
+                            mainAxisSpacing: 0.0,
+                            childAspectRatio: 1.7),
+                    itemBuilder: (BuildContext context, int index) {
+                      return NumberWithTextField(
+                          number: (index + 1).toString(),
+                          controller: controller
+                              .hotCompressionTemperatureControllers[index]);
+                    },
+                  ),
                 ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '3 ',
-                      controller: controller.hotCompressionTemperature3,
-                    ),
-                    NumberWithTextField(
-                      number: '4 ',
-                      controller: controller.hotCompressionTemperature4,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '5 ',
-                      controller: controller.hotCompressionTemperature5,
-                    ),
-                    NumberWithTextField(
-                      number: '6 ',
-                      controller: controller.hotCompressionTemperature6,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '7 ',
-                      controller: controller.hotCompressionTemperature7,
-                    ),
-                    NumberWithTextField(
-                      number: '8 ',
-                      controller: controller.hotCompressionTemperature8,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '9 ',
-                      controller: controller.hotCompressionTemperature9,
-                    ),
-                    NumberWithTextField(
-                      number: '10',
-                      controller: controller.hotCompressionTemperature10,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '11',
-                      controller: controller.hotCompressionTemperature11,
-                    ),
-                    NumberWithTextField(
-                      number: '12',
-                      controller: controller.hotCompressionTemperature12,
-                    ),
-                  ],
-                ),
+                CustomButton(
+                  buttonText: 'Add',
+                  onTap: () {
+                    if (controller.hotCompressionTemperatureControllers.length <
+                        16) {
+                      controller.hotCompressionTemperatureControllers
+                          .add(TextEditingController());
+                    } else {
+                      ToastMessage.showToastMessage(
+                          message:
+                              'You can add up to only 16 Hot Compression Temperatures.',
+                          backgroundColor: AppColors.blueTextColor);
+                    }
+                  },
+                )
               ],
             ),
           ),
@@ -132,6 +96,7 @@ class CustomStepperBody3 extends StatelessWidget {
                 const ContainerHeading(heading: 'Value Set'),
                 TextfieldWithRadioButtons(
                   heading: 'Intake',
+                  keyboardType: TextInputType.number,
                   val1: 'Hydraulic',
                   val2: 'Solid',
                   textController: controller.intakeValueSet,
@@ -139,6 +104,7 @@ class CustomStepperBody3 extends StatelessWidget {
                 ),
                 TextfieldWithRadioButtons(
                   heading: 'Exhaust',
+                  keyboardType: TextInputType.number,
                   val1: 'Hydraulic',
                   val2: 'Solid',
                   textController: controller.exhaustValueSet,
@@ -178,6 +144,7 @@ class CustomStepperBody3 extends StatelessWidget {
                 HeadingAndTextfield(
                   title: 'Sparkplug Gap',
                   controller: controller.sparkplugGap,
+                  keyboardType: TextInputType.number,
                 ),
                 CustomRadioButton(
                   heading: 'Sparkplug Extension(s) Installed?',
@@ -522,28 +489,28 @@ class CustomStepperBody3 extends StatelessWidget {
                     heading: 'Day tank values open?',
                     options: const ['yes', 'no'],
                     selectedOption: controller.dayTankValvesOpen),
-                Row(
-                  children: [
-                    Expanded(
-                      child: CustomButton(
-                          buttonText: 'BACK',
-                          usePrimaryColor: true,
-                          onTap: () {
-                            controller.previousPage();
-                          }),
-                    ),
-                    Expanded(
-                      child: CustomButton(
-                          buttonText: 'Next',
-                          onTap: () {
-                            controller.nextPage();
-                          }),
-                    ),
-                  ],
-                )
               ],
             ),
           ),
+          Row(
+            children: [
+              Expanded(
+                child: CustomButton(
+                    buttonText: 'BACK',
+                    usePrimaryColor: true,
+                    onTap: () {
+                      controller.previousPage();
+                    }),
+              ),
+              Expanded(
+                child: CustomButton(
+                    buttonText: 'Next',
+                    onTap: () {
+                      controller.nextPage();
+                    }),
+              ),
+            ],
+          )
         ],
       ),
     );

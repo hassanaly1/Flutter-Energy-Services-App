@@ -8,7 +8,7 @@ class CustomRadioButton extends StatelessWidget {
   final List<String> options;
   final RxString selectedOption;
 
-  const CustomRadioButton({
+  const CustomRadioButton({super.key, 
     required this.options,
     required this.selectedOption,
     required this.heading,

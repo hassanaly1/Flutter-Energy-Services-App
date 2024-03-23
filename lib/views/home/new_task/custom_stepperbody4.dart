@@ -4,11 +4,13 @@ import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
+import 'package:energy_services/helper/validator.dart';
 import 'package:energy_services/models/single_part_model.dart';
 import 'package:energy_services/views/home/new_task/custom_stepperbody2.dart';
 import 'package:energy_services/views/home/new_task/widgets/heading&textfield.dart';
 import 'package:energy_services/views/home/new_task/widgets/radio_button.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 
 class CustomStepperBody4 extends StatelessWidget {
@@ -17,6 +19,7 @@ class CustomStepperBody4 extends StatelessWidget {
   });
 
   final AddTaskController controller = Get.find();
+  final _partsFormkey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -80,7 +83,7 @@ class CustomStepperBody4 extends StatelessWidget {
                 CustomRadioButton(
                   heading: 'Auxiliary coolant level:',
                   options: const ['low', 'good', 'high'],
-                  selectedOption: controller.auxiliaryCoolantLevel,
+                  selectedOption: controller.auxiliaryCoolantLevel2,
                 ),
               ],
             ),
@@ -160,32 +163,41 @@ class CustomStepperBody4 extends StatelessWidget {
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
-            child: Obx(
-              () => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const ContainerHeading(
-                      heading: 'Engine Deficiencies for Future Repairs'),
-                  CustomRadioButton(
-                    options: const ['yes', 'no'],
-                    selectedOption: controller.engineDeficienciesRadio,
-                    heading:
-                        'Engine deficiencies to be repaired in the future?',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ContainerHeading(
+                    heading: 'Engine Deficiencies for Future Repairs'),
+                CustomRadioButton(
+                  options: const ['yes', 'no'],
+                  selectedOption: controller.engineDeficienciesRadio,
+                  heading: 'Engine deficiencies to be repaired in the future?',
+                ),
+                Obx(
+                  () => Visibility(
+                    visible: controller.engineDeficienciesRadio.value == 'yes',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomTextWidget(text: 'If yes then describe'),
+                        ReUsableTextField(
+                          maxLines: 3,
+                          hintText:
+                              'Describe Engine deficiencies to be repaired in the future?',
+                          showBackgroundShadow:
+                              controller.engineDeficienciesRadio.value == 'yes',
+                          readOnly:
+                              controller.engineDeficienciesRadio.value == 'no',
+                          controller: controller.engineDeficienciesTextfield,
+                        ),
+                      ],
+                    ),
                   ),
-                  CustomTextWidget(text: 'If yes then describe'),
-                  ReUsableTextField(
-                    maxLines: 3,
-                    hintText:
-                        'Describe Engine deficiencies to be repaired in the future?',
-                    showBackgroundShadow:
-                        controller.engineDeficienciesRadio.value == 'yes',
-                    readOnly: controller.engineDeficienciesRadio.value == 'no',
-                    controller: controller.engineDeficienciesTextfield,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+
           //   Parts Ordering Status
           ReUsableContainer(
             showBackgroundShadow: false,
@@ -213,48 +225,75 @@ class CustomStepperBody4 extends StatelessWidget {
                 textAlign: TextAlign.center,
               )),
           //   Add Parts in Table
+
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const ContainerHeading(heading: 'Add Parts'),
-                HeadingAndTextfield(
-                    title: 'Name:', controller: controller.partName),
-                HeadingAndTextfield(
+            child: Form(
+              key: _partsFormkey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const ContainerHeading(heading: 'Add Parts'),
+                  HeadingAndTextfield(
+                    title: 'Name:',
+                    controller: controller.partName,
+                    validator: (value) => AppValidator.validateEmptyText(
+                        fieldName: 'Name', value: value),
+                  ),
+                  HeadingAndTextfield(
                     title: 'Description:',
-                    controller: controller.partDescription),
-                HeadingAndTextfield(
-                    title: 'Quantity:', controller: controller.partQuantity),
-                HeadingAndTextfield(
-                    title: 'Vendor:', controller: controller.partVendor),
-                CustomButton(
-                  buttonText: 'Add',
-                  onTap: () {
-                    controller.partsList.add(
-                      SinglePartModel(
-                        controller.partName.text.trim(),
-                        controller.partDescription.text.trim(),
-                        controller.partQuantity.text.trim(),
-                        controller.partVendor.text.trim(),
-                      ),
-                    );
-                    controller.partName.clear();
-                    controller.partDescription.clear();
-                    controller.partQuantity.clear();
-                    controller.partVendor.clear();
-                  },
-                )
-              ],
+                    controller: controller.partDescription,
+                    validator: (value) => AppValidator.validateEmptyText(
+                        fieldName: 'Description', value: value),
+                  ),
+                  HeadingAndTextfield(
+                    title: 'Quantity:',
+                    controller: controller.partQuantity,
+                    keyboardType: TextInputType.number,
+                    validator: (value) => AppValidator.validateEmptyText(
+                        fieldName: 'Quantity', value: value),
+                  ),
+                  HeadingAndTextfield(
+                    title: 'Vendor:',
+                    controller: controller.partVendor,
+                    validator: (value) => AppValidator.validateEmptyText(
+                        fieldName: 'Vendor', value: value),
+                  ),
+                  CustomButton(
+                    buttonText: 'Add',
+                    onTap: () {
+                      if (_partsFormkey.currentState!.validate()) {
+                        controller.partsList.add(
+                          SinglePartModel(
+                            controller.partName.text.trim(),
+                            controller.partDescription.text.trim(),
+                            controller.partQuantity.text.trim(),
+                            controller.partVendor.text.trim(),
+                          ),
+                        );
+                        controller.partName.clear();
+                        controller.partDescription.clear();
+                        controller.partQuantity.clear();
+                        controller.partVendor.clear();
+                      }
+                    },
+                  )
+                ],
+              ),
             ),
           ),
           Obx(
             () => ReUsableContainer(
                 borderRadius: 8.0,
                 child: controller.partsList.isEmpty
-                    ? CustomTextWidget(
-                        text: 'No Parts Added', textAlign: TextAlign.center)
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: context.height * 0.1),
+                        child: CustomTextWidget(
+                            text: 'No Parts Added',
+                            textAlign: TextAlign.center),
+                      )
                     : ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
@@ -275,16 +314,11 @@ class CustomStepperBody4 extends StatelessWidget {
                 child: CustomButton(
                     buttonText: 'BACK',
                     usePrimaryColor: true,
-                    onTap: () {
-                      controller.previousPage();
-                    }),
+                    onTap: () => controller.previousPage()),
               ),
               Expanded(
                 child: CustomButton(
-                    buttonText: 'SUBMIT',
-                    onTap: () {
-                      controller.nextPage();
-                    }),
+                    buttonText: 'SUBMIT', onTap: () => controller.addTask()),
               ),
             ],
           )
@@ -297,51 +331,72 @@ class CustomStepperBody4 extends StatelessWidget {
 class SinglePartDetail extends StatelessWidget {
   final SinglePartModel model;
   final int index;
-  const SinglePartDetail({super.key, required this.model, required this.index});
+  SinglePartDetail({super.key, required this.model, required this.index});
+
+  final AddTaskController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        const SizedBox(height: 8.0),
-        Center(
-          child: CustomTextWidget(
-            text: (index + 1).toString(),
-            fontWeight: FontWeight.w600,
-            fontSize: 16.0,
+    return ReUsableContainer(
+      showBackgroundShadow: false,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const SizedBox(height: 8.0),
+          Center(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                CustomTextWidget(
+                  textColor: Colors.transparent,
+                  text: (index + 1).toString(),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0,
+                ),
+                CustomTextWidget(
+                  text: (index + 1).toString(),
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16.0,
+                ),
+                IconButton(
+                    onPressed: () {
+                      controller.partsList.removeAt(index);
+                    },
+                    icon: const Icon(FontAwesomeIcons.xmark, color: Colors.red))
+              ],
+            ),
           ),
-        ),
-        const SizedBox(height: 8.0),
-        CustomTextWidget(
-          text: 'Part Name:  ',
-          fontWeight: FontWeight.w600,
-          fontSize: 12.0,
-        ),
-        CustomTextWidget(text: model.partName),
-        const SizedBox(height: 8.0),
-        CustomTextWidget(
-          text: 'Part Description:  ',
-          fontWeight: FontWeight.w600,
-          fontSize: 12.0,
-        ),
-        CustomTextWidget(text: model.partDescription),
-        const SizedBox(height: 8.0),
-        CustomTextWidget(
-          text: 'Part Quantity:  ',
-          fontWeight: FontWeight.w600,
-          fontSize: 12.0,
-        ),
-        CustomTextWidget(text: model.partQuantity.toString()),
-        const SizedBox(height: 8.0),
-        CustomTextWidget(
-          text: 'Part Vendor:  ',
-          fontWeight: FontWeight.w600,
-          fontSize: 12.0,
-        ),
-        CustomTextWidget(text: model.partVendor),
-        const SizedBox(height: 8.0),
-      ],
+          const SizedBox(height: 8.0),
+          CustomTextWidget(
+            text: 'Part Name:  ',
+            fontWeight: FontWeight.w600,
+            fontSize: 12.0,
+          ),
+          CustomTextWidget(text: model.partName),
+          const SizedBox(height: 8.0),
+          CustomTextWidget(
+            text: 'Part Description:  ',
+            fontWeight: FontWeight.w600,
+            fontSize: 12.0,
+          ),
+          CustomTextWidget(text: model.partDescription),
+          const SizedBox(height: 8.0),
+          CustomTextWidget(
+            text: 'Part Quantity:  ',
+            fontWeight: FontWeight.w600,
+            fontSize: 12.0,
+          ),
+          CustomTextWidget(text: model.partQuantity.toString()),
+          const SizedBox(height: 8.0),
+          CustomTextWidget(
+            text: 'Part Vendor:  ',
+            fontWeight: FontWeight.w600,
+            fontSize: 12.0,
+          ),
+          CustomTextWidget(text: model.partVendor),
+          const SizedBox(height: 8.0),
+        ],
+      ),
     );
   }
 }

@@ -61,7 +61,7 @@ class ReUsableTextField extends StatelessWidget {
           hintText: hintText,
           hintStyle: TextStyle(
             fontFamily: 'Poppins',
-            fontSize: 14,
+            fontSize: 12,
             fontWeight: FontWeight.w300,
             color: AppColors.lightTextColor,
           ),

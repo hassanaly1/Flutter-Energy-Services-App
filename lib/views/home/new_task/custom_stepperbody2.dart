@@ -4,6 +4,7 @@ import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
+import 'package:energy_services/helper/toast.dart';
 import 'package:energy_services/views/home/new_task/widgets/checkbox.dart';
 import 'package:energy_services/views/home/new_task/widgets/heading&textfield.dart';
 import 'package:energy_services/views/home/new_task/widgets/radio_button.dart';
@@ -34,7 +35,8 @@ class CustomStepperBody2 extends StatelessWidget {
               color: AppColors.blueTextColor,
               borderRadius: 8.0,
               child: CustomTextWidget(
-                text: 'Engine Running Checks',
+                text: 'ENGINE RUNNING CHECKS',
+                textAlign: TextAlign.center,
                 textColor: Colors.white,
               )),
           //Engine Load Factor
@@ -48,7 +50,7 @@ class CustomStepperBody2 extends StatelessWidget {
                   children: [
                     Flexible(
                         child: HeadingAndTextfield(
-                      title: 'Enter Engine Load',
+                      title: 'Engine Load',
                       controller: controller.engineLoad,
                       keyboardType: TextInputType.number,
                     )),
@@ -63,6 +65,7 @@ class CustomStepperBody2 extends StatelessWidget {
                 HeadingAndTextfield(
                   title: 'Ignition Timing, BTDC',
                   controller: controller.ignitionTiming,
+                  keyboardType: TextInputType.number,
                 ),
               ],
             ),
@@ -129,6 +132,7 @@ class CustomStepperBody2 extends StatelessWidget {
                 HeadingAndTextfield(
                   title: 'BTU Value',
                   controller: controller.btuValue,
+                  keyboardType: TextInputType.number,
                 ),
                 CustomRadioButton(
                     options: const ['C', 'F'],
@@ -146,90 +150,41 @@ class CustomStepperBody2 extends StatelessWidget {
               children: [
                 const ContainerHeading(
                     heading: 'Cylinder Exhaust Pyrometer Temperature Readings'),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '1 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature1,
-                    ),
-                    NumberWithTextField(
-                      number: '2 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature2,
-                    ),
-                  ],
+                Obx(
+                  () => GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount:
+                        controller.pyrometerTemperatureControllers.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 0.0,
+                            mainAxisSpacing: 0.0,
+                            childAspectRatio: 1.7),
+                    itemBuilder: (BuildContext context, int index) {
+                      return NumberWithTextField(
+                          number: (index + 1).toString(),
+                          controller: controller
+                              .pyrometerTemperatureControllers[index]);
+                    },
+                  ),
                 ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '3 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature3,
-                    ),
-                    NumberWithTextField(
-                      number: '4 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature4,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '5 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature5,
-                    ),
-                    NumberWithTextField(
-                      number: '6 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature6,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '7 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature7,
-                    ),
-                    NumberWithTextField(
-                      number: '8 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature8,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '9 ',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature9,
-                    ),
-                    NumberWithTextField(
-                      number: '10',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature10,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '11',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature11,
-                    ),
-                    NumberWithTextField(
-                      number: '12',
-                      controller:
-                          controller.cylinderExhaustPyrometerTemperature12,
-                    ),
-                  ],
-                ),
+                CustomButton(
+                  buttonText: 'Add',
+                  onTap: () {
+                    if (controller.pyrometerTemperatureControllers.length <
+                        16) {
+                      controller.pyrometerTemperatureControllers
+                          .add(TextEditingController());
+                    } else {
+                      ToastMessage.showToastMessage(
+                          message:
+                              'You can add up to only 16 Pyrometer Temperatures.',
+                          backgroundColor: AppColors.blueTextColor);
+                    }
+                  },
+                )
               ],
             ),
           ),
@@ -318,7 +273,7 @@ class CustomStepperBody2 extends StatelessWidget {
                 CustomRadioButton(
                     options: const ['yes', 'no'],
                     selectedOption: controller.missFireDetected,
-                    heading: 'Missfires Detected?')
+                    heading: 'Misfires Detected?')
               ],
             ),
           ),
@@ -330,78 +285,39 @@ class CustomStepperBody2 extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const ContainerHeading(heading: 'Burn Times'),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '1 ',
-                      controller: controller.burnTemperature1,
-                    ),
-                    NumberWithTextField(
-                      number: '2 ',
-                      controller: controller.burnTemperature2,
-                    ),
-                  ],
+                Obx(
+                  () => GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: controller.burnTemperatureControllers.length,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            crossAxisSpacing: 0.0,
+                            mainAxisSpacing: 0.0,
+                            childAspectRatio: 1.7),
+                    itemBuilder: (BuildContext context, int index) {
+                      return NumberWithTextField(
+                          number: (index + 1).toString(),
+                          controller:
+                              controller.burnTemperatureControllers[index]);
+                    },
+                  ),
                 ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '3 ',
-                      controller: controller.burnTemperature3,
-                    ),
-                    NumberWithTextField(
-                      number: '4 ',
-                      controller: controller.burnTemperature4,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '5 ',
-                      controller: controller.burnTemperature5,
-                    ),
-                    NumberWithTextField(
-                      number: '6 ',
-                      controller: controller.burnTemperature6,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '7 ',
-                      controller: controller.burnTemperature7,
-                    ),
-                    NumberWithTextField(
-                      number: '8 ',
-                      controller: controller.burnTemperature8,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '9 ',
-                      controller: controller.burnTemperature9,
-                    ),
-                    NumberWithTextField(
-                      number: '10',
-                      controller: controller.burnTemperature10,
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    NumberWithTextField(
-                      number: '11',
-                      controller: controller.burnTemperature11,
-                    ),
-                    NumberWithTextField(
-                      number: '12',
-                      controller: controller.burnTemperature12,
-                    ),
-                  ],
-                ),
+                CustomButton(
+                  buttonText: 'Add',
+                  onTap: () {
+                    if (controller.burnTemperatureControllers.length < 16) {
+                      controller.burnTemperatureControllers
+                          .add(TextEditingController());
+                    } else {
+                      ToastMessage.showToastMessage(
+                          message:
+                              'You can add up to only 16 Burn Times Temperatures.',
+                          backgroundColor: AppColors.blueTextColor);
+                    }
+                  },
+                )
               ],
             ),
           ),
@@ -416,10 +332,12 @@ class CustomStepperBody2 extends StatelessWidget {
                 HeadingAndTextfield(
                   title: 'Throttle Actuator Position',
                   controller: controller.throttleActuatorPosition,
+                  keyboardType: TextInputType.number,
                 ),
                 HeadingAndTextfield(
                   title: 'Fuel Value',
                   controller: controller.fuelValue,
+                  keyboardType: TextInputType.number,
                 )
               ],
             ),
@@ -435,6 +353,7 @@ class CustomStepperBody2 extends StatelessWidget {
                 HeadingAndTextfield(
                   title: 'Engine Oil Pressure (PSI)',
                   controller: controller.engineOilPressure,
+                  keyboardType: TextInputType.number,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -452,6 +371,7 @@ class CustomStepperBody2 extends StatelessWidget {
                                   const EdgeInsets.symmetric(vertical: 4.0),
                               child: ReUsableTextField(
                                 hintText: 'Value',
+                                keyboardType: TextInputType.number,
                                 controller:
                                     controller.oilPressureDifferentialTextField,
                                 onChanged: (value) {
@@ -490,8 +410,8 @@ class CustomStepperBody2 extends StatelessWidget {
                 ),
                 InOutWidget(
                   heading: 'Oil temperature',
-                  inController: controller.oilPressureIn,
-                  outController: controller.oilPressureOut,
+                  inController: controller.oilTemperatureIn,
+                  outController: controller.oilTemperatureOut,
                 ),
                 CustomRadioButton(
                     options: const [
@@ -514,10 +434,11 @@ class CustomStepperBody2 extends StatelessWidget {
                 const ContainerHeading(heading: 'Engine Coolant'),
                 TextfieldWithRadioButtons(
                   heading: 'Engine Coolant Pressure',
+                  keyboardType: TextInputType.number,
                   val1: 'PSI',
                   val2: 'KPA',
-                  textController: controller.engineCoolentPressure,
-                  radioController: controller.engineCoolentPressureRadioValue,
+                  textController: controller.engineCoolantPressure,
+                  radioController: controller.engineCoolantPressureRadioValue,
                 ),
                 CustomRadioButton(
                     options: const [
@@ -544,7 +465,7 @@ class CustomStepperBody2 extends StatelessWidget {
                       'GOOD',
                       'HIGH',
                     ],
-                    selectedOption: controller.auxiliaryCoolantlevel,
+                    selectedOption: controller.auxiliaryCoolantlevel1,
                     heading: 'Auxiliary Coolant level')
               ],
             ),
@@ -564,8 +485,8 @@ class CustomStepperBody2 extends StatelessWidget {
                 ),
                 InOutWidget(
                   heading: 'Aux. Coolant Temperatures In & Out (C/F)',
-                  inController: controller.auxCoolentTemperaturesIn,
-                  outController: controller.auxCoolentTemperaturesOut,
+                  inController: controller.auxCoolantTemperaturesIn,
+                  outController: controller.auxCoolantTemperaturesOut,
                 ),
               ],
             ),
@@ -580,21 +501,24 @@ class CustomStepperBody2 extends StatelessWidget {
                 const ContainerHeading(heading: 'Air Intake'),
                 TextfieldWithRadioButtons(
                   heading: 'Inlet Air Temp',
+                  keyboardType: TextInputType.number,
                   val1: 'C',
                   val2: 'F',
-                  textController: controller.inletAirTempTextfield,
+                  textController: controller.inletAirTemp,
                   radioController: controller.inletAirTempRadio,
                 ),
                 TextfieldWithRadioButtons(
                   heading: 'Inlet Air Pressure',
+                  keyboardType: TextInputType.number,
                   val1: 'PSI',
                   val2: 'KPA',
-                  textController: controller.inletAirPressureTextfield,
+                  textController: controller.inletAirPressure,
                   radioController: controller.inletAirPressureRadio,
                 ),
                 HeadingAndTextfield(
                   title: 'Primary Fuel Pressure (PSI)',
                   controller: controller.primaryFuelPressure,
+                  keyboardType: TextInputType.number,
                 ),
               ],
             ),
@@ -610,22 +534,25 @@ class CustomStepperBody2 extends StatelessWidget {
                     heading: 'Air/Fuel Ratio & Crankcase Pressure'),
                 HeadingAndTextfield(
                   title: 'Actual Air to Fuel Ratio (%)',
+                  keyboardType: TextInputType.number,
                   controller: controller.actualAirToFuelRatio,
                 ),
                 HeadingAndTextfield(
                   title: 'Crankcase Pressure / Vacuum',
                   controller: controller.crankcasePressure,
+                  keyboardType: TextInputType.number,
                 ),
                 TextfieldWithRadioButtons(
                   heading: 'Airfilter Restriction',
+                  keyboardType: TextInputType.number,
                   val1: 'RB',
                   val2: 'LB',
-                  textController: controller.airFilterRestrictionTextfield,
+                  textController: controller.airFilterRestriction,
                   radioController: controller.airFilterRestrictionRadio,
                 ),
                 CustomRadioButton(
                     options: const ['LOW', 'GOOD', 'HIGH', 'NA'],
-                    selectedOption: controller.hydrolicOil,
+                    selectedOption: controller.hydraulicOil,
                     heading: 'Hydraulic Oil')
               ],
             ),
@@ -642,32 +569,41 @@ class CustomStepperBody2 extends StatelessWidget {
                     options: const ['yes', 'no'],
                     selectedOption: controller.leaksFound,
                     heading: 'Any Leaks Found?'),
-                CustomTextWidget(text: 'If yes then describe'),
-                CheckboxWithTextfield(
-                  heading: 'Oil',
-                  isSelected: controller.isOilSelected,
-                  controller: controller.oilDescription,
-                ),
-                CheckboxWithTextfield(
-                  heading: 'Coolant',
-                  isSelected: controller.isCoolantSelected,
-                  controller: controller.coolantDescription,
-                ),
-                CheckboxWithTextfield(
-                  heading: 'Gass',
-                  isSelected: controller.isGassSelected,
-                  controller: controller.gassDescription,
-                ),
-                CheckboxWithTextfield(
-                  heading: 'Exhaust',
-                  isSelected: controller.isExhaustSelected,
-                  controller: controller.exhaustDescription,
-                ),
-                CheckboxWithTextfield(
-                  heading: 'Air',
-                  isSelected: controller.isAirSelected,
-                  controller: controller.airDescription,
-                ),
+                Obx(
+                  () => Visibility(
+                      visible: controller.leaksFound.value == "yes",
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          CustomTextWidget(text: 'If yes then describe'),
+                          CheckboxWithTextfield(
+                            heading: 'Oil',
+                            isSelected: controller.isOilSelected,
+                            controller: controller.oilDescription,
+                          ),
+                          CheckboxWithTextfield(
+                            heading: 'Coolant',
+                            isSelected: controller.isCoolantSelected,
+                            controller: controller.coolantDescription,
+                          ),
+                          CheckboxWithTextfield(
+                            heading: 'Gass',
+                            isSelected: controller.isGasSelected,
+                            controller: controller.gasDescription,
+                          ),
+                          CheckboxWithTextfield(
+                            heading: 'Exhaust',
+                            isSelected: controller.isExhaustSelected,
+                            controller: controller.exhaustDescription,
+                          ),
+                          CheckboxWithTextfield(
+                            heading: 'Air',
+                            isSelected: controller.isAirSelected,
+                            controller: controller.airDescription,
+                          ),
+                        ],
+                      )),
+                )
               ],
             ),
           ),
@@ -675,80 +611,98 @@ class CustomStepperBody2 extends StatelessWidget {
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
-            child: Obx(
-              () => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const ContainerHeading(
-                      heading: 'Excessive vibration & odd noises'),
-                  CustomRadioButton(
-                    options: const ['yes', 'no'],
-                    selectedOption: controller.excessiveVibrationAndOddNoises,
-                    heading: 'Excessive vibration & odd noises?',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ContainerHeading(
+                    heading: 'Excessive vibration & odd noises'),
+                CustomRadioButton(
+                  options: const ['yes', 'no'],
+                  selectedOption: controller.excessiveVibrationAndOddNoises,
+                  heading: 'Excessive vibration & odd noises?',
+                ),
+                Obx(
+                  () => Visibility(
+                    visible: controller.excessiveVibrationAndOddNoises.value ==
+                        "yes",
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomTextWidget(text: 'If yes then describe'),
+                        ReUsableTextField(
+                          maxLines: 3,
+                          hintText: 'Describe Excessive Vibration & Odd Noises',
+                          showBackgroundShadow:
+                              controller.excessiveVibrationAndOddNoises.value ==
+                                  'yes',
+                          readOnly:
+                              controller.excessiveVibrationAndOddNoises.value ==
+                                  'no',
+                          controller: controller
+                              .excessiveVibrationAndOddNoisesDescription,
+                        ),
+                      ],
+                    ),
                   ),
-                  CustomTextWidget(text: 'If yes then describe'),
-                  ReUsableTextField(
-                    maxLines: 3,
-                    hintText: 'Describe Excessive Vibration & Odd Noises',
-                    showBackgroundShadow:
-                        controller.excessiveVibrationAndOddNoises.value ==
-                            'yes',
-                    readOnly:
-                        controller.excessiveVibrationAndOddNoises.value == 'no',
-                    controller:
-                        controller.excessiveVibrationAndOddNoisesDescription,
-                  ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           //Problems with Driver
           ReUsableContainer(
             showBackgroundShadow: false,
             color: Colors.grey.shade300,
-            child: Obx(
-              () => Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const ContainerHeading(heading: 'Problems with Driver'),
-                  CustomRadioButton(
-                    options: const ['yes', 'no'],
-                    selectedOption: controller.problemsWithDriver,
-                    heading: 'Problem found with Driver during running checks?',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const ContainerHeading(heading: 'Problems with Driver'),
+                CustomRadioButton(
+                  options: const ['yes', 'no'],
+                  selectedOption: controller.problemsWithDriver,
+                  heading: 'Problem found with Driver during running checks?',
+                ),
+                Obx(
+                  () => Visibility(
+                    visible: controller.problemsWithDriver.value == 'yes',
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CustomTextWidget(text: 'If yes then describe'),
+                        ReUsableTextField(
+                          maxLines: 3,
+                          hintText:
+                              'Describe Problem found with Driver during running checks',
+                          showBackgroundShadow:
+                              controller.problemsWithDriver.value == 'yes',
+                          readOnly: controller.problemsWithDriver.value == 'no',
+                          controller: controller.problemsWithDriverDescription,
+                        ),
+                      ],
+                    ),
                   ),
-                  CustomTextWidget(text: 'If yes then describe'),
-                  ReUsableTextField(
-                    maxLines: 3,
-                    hintText:
-                        'Describe Problem found with Driver during running checks',
-                    showBackgroundShadow:
-                        controller.problemsWithDriver.value == 'yes',
-                    readOnly: controller.problemsWithDriver.value == 'no',
-                    controller: controller.problemsWithDriverDescription,
-                  ),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: CustomButton(
-                            buttonText: 'BACK',
-                            usePrimaryColor: true,
-                            onTap: () {
-                              controller.previousPage();
-                            }),
-                      ),
-                      Expanded(
-                        child: CustomButton(
-                            buttonText: 'Next',
-                            onTap: () {
-                              controller.nextPage();
-                            }),
-                      ),
-                    ],
-                  )
-                ],
-              ),
+                ),
+              ],
             ),
           ),
+          Row(
+            children: [
+              Expanded(
+                child: CustomButton(
+                    buttonText: 'BACK',
+                    usePrimaryColor: true,
+                    onTap: () {
+                      controller.previousPage();
+                    }),
+              ),
+              Expanded(
+                child: CustomButton(
+                    buttonText: 'Next',
+                    onTap: () {
+                      controller.nextPage();
+                    }),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -762,12 +716,11 @@ class NumberWithTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Flexible(
-      child: HeadingAndTextfieldInRow(
-        title: number,
-        hintText: 'Temperature',
-        controller: controller,
-      ),
+    return HeadingAndTextfieldInRow(
+      title: number,
+      hintText: 'Temperature',
+      controller: controller,
+      keyboardType: TextInputType.number,
     );
   }
 }
@@ -821,6 +774,7 @@ class TextfieldWithRadioButtons extends StatelessWidget {
   final String val2;
   final TextEditingController? textController;
   final RxString? radioController;
+  final TextInputType? keyboardType;
   const TextfieldWithRadioButtons({
     super.key,
     required this.heading,
@@ -828,6 +782,7 @@ class TextfieldWithRadioButtons extends StatelessWidget {
     this.radioController,
     required this.val1,
     required this.val2,
+    this.keyboardType,
   });
 
   @override
@@ -846,6 +801,7 @@ class TextfieldWithRadioButtons extends StatelessWidget {
               child: ReUsableTextField(
                 hintText: 'Value',
                 controller: textController,
+                keyboardType: keyboardType,
               ),
             ),
             Flexible(
@@ -894,6 +850,7 @@ class InOutWidget extends StatelessWidget {
                 title: 'In',
                 hintText: 'Value',
                 controller: inController,
+                keyboardType: TextInputType.number,
               ),
             ),
             Flexible(
@@ -901,6 +858,7 @@ class InOutWidget extends StatelessWidget {
                 title: 'Out',
                 hintText: 'Value',
                 controller: outController,
+                keyboardType: TextInputType.number,
               ),
             ),
           ],

@@ -25,7 +25,7 @@ class StepperHeader extends StatelessWidget {
             disableScroll: true,
             padding: EdgeInsets.zero,
             internalPadding: 4.0,
-            enableStepTapping: false,
+            // enableStepTapping: false,
             loadingAnimation: 'assets/lottie/loading-animation.json',
             stepShape: StepShape.circle,
             borderThickness: 4,

@@ -1,50 +1,208 @@
+
 import 'package:energy_services/models/single_part_model.dart';
+import 'package:energy_services/models/task_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
 
 class AddTaskController extends GetxController {
   var activePageIndex = 0.obs;
   final ScrollController scrollController = ScrollController();
   RxBool isScrolledUp = false.obs;
-  double _previousScrollPosition = 0.0;
+
+  List<TaskModel> tasks = <TaskModel>[].obs;
+  List<SinglePartModel> partsList = <SinglePartModel>[].obs; //List of Parts
 
   @override
   void onInit() {
+    pyrometerTemperatureControllers.add(TextEditingController());
+    pyrometerTemperatureControllers.add(TextEditingController());
+    burnTemperatureControllers.add(TextEditingController());
+    burnTemperatureControllers.add(TextEditingController());
+    hotCompressionTemperatureControllers.add(TextEditingController());
+    hotCompressionTemperatureControllers.add(TextEditingController());
     super.onInit();
-    scrollController.addListener(() {
-      double currentScrollPosition = scrollController.position.pixels;
-      if (currentScrollPosition > _previousScrollPosition) {
-        // Scrolling down
-        isScrolledUp.value = false;
-      } else {
-        // Scrolling up
-        isScrolledUp.value = true;
-      }
-      _previousScrollPosition = currentScrollPosition;
-    });
+  }
+
+  @override
+  void onClose() {
+    scrollController.dispose();
+    super.onClose();
+  }
+
+  void addTask() {
+    debugPrint(tasks.first.setUnits.toString());
+    debugPrint(tasks.first.unitHours.toString());
+    TaskModel newTask = TaskModel(
+      //Page1
+      location: selectedLocation.text.trim(),
+      setUnits: double.tryParse(setUnits.text.trim()),
+      unitHours: double.tryParse(unitHours.text.trim()),
+      // selectDate: selectDate,
+      // selectTime: selectTime,
+      nameOfJourneyMan: nameOfJourneyMan.text.trim(),
+      unitOnlineOnArrival: unitOnlineOnArrival.value,
+      jobScope: jobScope.text.trim(),
+      operationalProblems: operationalProblems.text.trim(),
+      engineBrand: engineBrand.text.trim(),
+      modelNumber: double.tryParse(modelNumber.text.trim()),
+      serialNumber: double.tryParse(serialNumber.text.trim()),
+      arrangementNumber: double.tryParse(arrangementNumber.text.trim()),
+      oilSamplesTaken: oilSamplesTaken.value,
+
+      //Page2
+      engineLoad: double.tryParse(engineLoad.text.trim()),
+      engineRPM: double.tryParse(engineRPM.text.trim()),
+      ignitionTiming: double.tryParse(ignitionTiming.text.trim()),
+      exhaustGasSampleFound: exhaustGasSampleFound,
+      leftBankFound: double.tryParse(leftBankFound.text.trim()),
+      rightBankFound: double.tryParse(rightBankFound.text.trim()),
+      exhaustGasSampleAdjusted: exhaustGasSampleAdjusted,
+      leftBankAdjusted: double.tryParse(leftBankAdjusted.text.trim()),
+      rightBankAdjusted: double.tryParse(rightBankAdjusted.text.trim()),
+      btuValue: double.tryParse(btuValue.text.trim()),
+      selectedBtuValue: selectedBtuValue.value,
+      // cylinderExhaustPyrometerTemperatures: pyrometerTemperatureControllers,
+      lbTurboIn: lbTurboIn.value,
+      lbTurboInTemp: double.tryParse(lbTurboInTemp.text.trim()),
+      rbTurboIn: rbTurboIn.value,
+      rbTurboInTemp: double.tryParse(rbTurboInTemp.text.trim()),
+      lbTurboOut: lbTurboOut.value,
+      lbTurboOutTemp: double.tryParse(lbTurboOutTemp.text.trim()),
+      rbTurboOut: rbTurboOut.value,
+      rbTurboOutTemp: double.tryParse(rbTurboOutTemp.text.trim()),
+      missFireDetected: missFireDetected.value,
+      // burnTemperatures:double.tryParse(btuValue.text.trim()),
+      throttleActuatorPosition:
+          double.tryParse(throttleActuatorPosition.text.trim()),
+      fuelValue: double.tryParse(fuelValue.text.trim()),
+      engineOilPressure: double.tryParse(engineOilPressure.text.trim()),
+      oilPressureDifferential: double.tryParse(oilPressureDifferential.value),
+      oilPressureDifferentialTextField:
+          oilPressureDifferentialTextField.text.trim(),
+      oilTemperatureIn: double.tryParse(oilTemperatureIn.text.trim()),
+      oilTemperatureOut: double.tryParse(oilTemperatureOut.text.trim()),
+      oilLevelEngine: oilLevelEngine.value,
+      engineCoolantPressure: double.tryParse(engineCoolantPressure.text.trim()),
+      engineCoolantPressureRadioValue: engineCoolantPressureRadioValue.value,
+      jacketWaterLevel: jacketWaterLevel.value,
+      auxiliaryCoolantLevel1: auxiliaryCoolantlevel1.value,
+      jacketWaterTemperaturesIn:
+          double.tryParse(jacketWaterTemperaturesIn.text.trim()),
+      jacketWaterTemperaturesOut:
+          double.tryParse(jacketWaterTemperaturesOut.text.trim()),
+      auxCoolantTemperaturesIn:
+          double.tryParse(auxCoolantTemperaturesIn.text.trim()),
+      auxCoolantTemperaturesOut:
+          double.tryParse(auxCoolantTemperaturesOut.text.trim()),
+      inletAirTemp: double.tryParse(inletAirTemp.text.trim()),
+      inletAirTempRadio: inletAirTempRadio.value,
+      inletAirPressure: double.tryParse(inletAirPressure.text.trim()),
+      inletAirPressureRadio: inletAirPressureRadio.value,
+      primaryFuelPressure: double.tryParse(primaryFuelPressure.text.trim()),
+      actualAirToFuelRatio: double.tryParse(actualAirToFuelRatio.text.trim()),
+      crankcasePressure: double.tryParse(crankcasePressure.text.trim()),
+      airFilterRestriction: double.tryParse(airFilterRestriction.text.trim()),
+      airFilterRestrictionRadio: airFilterRestrictionRadio.value,
+      hydraulicOil: hydraulicOil.value,
+      leaksFound: leaksFound.value,
+      isOilSelected: isOilSelected.value,
+      oilDescription: oilDescription.text.trim(),
+      isCoolantSelected: isCoolantSelected.value,
+      coolantDescription: coolantDescription.text.trim(),
+      isGasSelected: isGasSelected.value,
+      gasDescription: gasDescription.text.trim(),
+      isExhaustSelected: isExhaustSelected.value,
+      exhaustDescription: exhaustDescription.text.trim(),
+      isAirSelected: isAirSelected.value,
+      airDescription: airDescription.text.trim(),
+      excessiveVibrationAndOddNoises: excessiveVibrationAndOddNoises.value,
+      excessiveVibrationAndOddNoisesDescription:
+          excessiveVibrationAndOddNoisesDescription.text.trim(),
+      problemsWithDriver: problemsWithDriver.value,
+      problemsWithDriverDescription: problemsWithDriverDescription.text.trim(),
+
+      //Page3
+      //   List<double>? hotCompressionTemperatures:
+      intakeValueSet: double.tryParse(intakeValueSet.text.trim()),
+      intakeValueSetRadioValue: intakeValueSetRadioValue.value,
+      exhaustValueSet: double.tryParse(exhaustValueSet.text.trim()),
+      exhaustValueSetRadioValue: exhaustValueSetRadioValue.value,
+      majorValueRecessionDetected: majorValueRecessionDetected.value,
+      boroscopeRecommended: boroscopeRecommended.value,
+      boroscopeInspectionCompleted: boroscopeInspectionCompleted.value,
+      installNewWires: installNewWires.value,
+      sparkplugGap: double.tryParse(sparkplugGap.text.trim()),
+      sparkplugExtensionInstalled: sparkplugExtensionInstalled.value,
+      newExtensionInstalled: newExtensionInstalled.value,
+      listOfNewExtensionInstalled: listOfNewExtensionInstalled.text.trim(),
+      sparkplugWireCondition: sparkplugWireCondition.value,
+      listOfSparkplugWireCondition: listOfSparkplugWireCondition.text.trim(),
+      cannonPlugConnectorsTight: cannonPlugConnectorsTight.value,
+      listOfTransformerCoilsReplaced:
+          listOfTransformerCoilsReplaced.text.trim(),
+      crankcaseBreatherInspection: crankcaseBreatherInspection.value,
+      newBreatherElementInstalled: newBreatherElementInstalled.value,
+      checkAllCanonFan: checkAllCanonFan.value,
+      listOfCheckAllCanonFan: listOfCheckAllCanonFan.text.trim(),
+      coolantSystemCheck: coolantSystemCheck.value,
+      lubricationSystemCheck: lubricationSystemCheck.value,
+      coolingSystemCheck: coolingSystemCheck.value,
+      checkFuelGasFilter: checkFuelGasFilter.value,
+      fuelGasFilterFound: fuelGasFilterFound.value,
+      airFilterInspection: airFilterInspection.value,
+      turboChargerInspection: turboChargerInspection.value,
+      carburetorInternalCleaningInspection:
+          carburetorInternalCleaningInspection.value,
+      engineOilFilterChange: engineOilFilterChange.value,
+      engineOilFilterChange2: engineOilFilterChange2.value,
+      oilCoolerDrained: oilCoolerDrained.value,
+      hydraulicOilFilterChange: hydraulicOilFilterChange.value,
+      hydraulicOilNew: hydraulicOilNew.value,
+      engineOilSystemPrimed: engineOilSystemPrimed.value,
+      oilDrainIsolationValvesShutIn: oilDrainIsolationValvesShutIn.value,
+      dayTankFiltersInstalledNew: dayTankFiltersInstalledNew.value,
+      dayTankValvesOpen: dayTankValvesOpen.value,
+
+      //Page4
+      oilPressureEngineAndGood: oilPressureEngineAndGood.value,
+      engineOilLevel: engineOilLevel.value,
+      jacketWaterCoolantLevel: jacketWaterCoolantLevel.value,
+      auxiliaryCoolantLevel2: auxiliaryCoolantLevel2.value,
+      allTempsAndPressuresStableAndNormalRanges:
+          allTempsAndPressuresStableAndNormalRanges.value,
+      noisesOrVibrationsDetected: noisesOrVibrationsDetected.value,
+      engineExhaustGasCheckedAndAdjustedAtMaxLoad:
+          engineExhaustGasCheckedAndAdjustedAtMaxLoad.value,
+      documentFinalSetPointExhaustGasOxygenOrCOLevels:
+          documentFinalSetPointExhaustGasOxygenOrCOLevels.text.trim(),
+      documentFinalManifoldPressureAndRPM:
+          documentFinalManifoldPressureAndRPM.text.trim(),
+      engineDeficienciesRadio: engineDeficienciesRadio.value,
+      engineDeficienciesTextfield: engineDeficienciesTextfield.text.trim(),
+      partsOrderingStatus: partsOrderingStatus.value,
+      partsList: partsList,
+    );
+    tasks.add(newTask);
   }
 
   //-----------------------------------------------------------------------//
 
   //Page1
 
-  RxString oilSamplesTaken = ''.obs;
-  RxString unitOnlineOnArrival = ''.obs;
-  RxString selectedLocation = ''.obs;
+  TextEditingController selectedLocation = TextEditingController();
   TextEditingController setUnits = TextEditingController();
   TextEditingController unitHours = TextEditingController();
   late DateTime selectDate;
   late DateTime selectTime;
   TextEditingController nameOfJourneyMan = TextEditingController();
+  RxString unitOnlineOnArrival = ''.obs;
   TextEditingController jobScope = TextEditingController();
   TextEditingController operationalProblems = TextEditingController();
   TextEditingController engineBrand = TextEditingController();
   TextEditingController modelNumber = TextEditingController();
   TextEditingController serialNumber = TextEditingController();
   TextEditingController arrangementNumber = TextEditingController();
-
+  RxString oilSamplesTaken = ''.obs;
   //-----------------------------------------------------------------------//
 
   //Page2
@@ -67,30 +225,32 @@ class AddTaskController extends GetxController {
   RxString selectedBtuValue = ''.obs; //RadioButton
 
   //Cylinder Exhaust Pyrometer
-  TextEditingController cylinderExhaustPyrometerTemperature1 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature2 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature3 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature4 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature5 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature6 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature7 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature8 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature9 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature10 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature11 =
-      TextEditingController();
-  TextEditingController cylinderExhaustPyrometerTemperature12 =
-      TextEditingController();
+  List<TextEditingController> pyrometerTemperatureControllers =
+      <TextEditingController>[].obs;
+  // TextEditingController cylinderExhaustPyrometerTemperature1 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature2 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature3 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature4 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature5 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature6 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature7 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature8 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature9 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature10 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature11 =
+  //     TextEditingController();
+  // TextEditingController cylinderExhaustPyrometerTemperature12 =
+  //     TextEditingController();
 
   //Turbo Temperatures
   RxString lbTurboIn = ''.obs; //RadioButton
@@ -106,18 +266,20 @@ class AddTaskController extends GetxController {
   RxString missFireDetected = ''.obs; //RadioButton
 
   //BurnTimes
-  TextEditingController burnTemperature1 = TextEditingController();
-  TextEditingController burnTemperature2 = TextEditingController();
-  TextEditingController burnTemperature3 = TextEditingController();
-  TextEditingController burnTemperature4 = TextEditingController();
-  TextEditingController burnTemperature5 = TextEditingController();
-  TextEditingController burnTemperature6 = TextEditingController();
-  TextEditingController burnTemperature7 = TextEditingController();
-  TextEditingController burnTemperature8 = TextEditingController();
-  TextEditingController burnTemperature9 = TextEditingController();
-  TextEditingController burnTemperature10 = TextEditingController();
-  TextEditingController burnTemperature11 = TextEditingController();
-  TextEditingController burnTemperature12 = TextEditingController();
+  List<TextEditingController> burnTemperatureControllers =
+      <TextEditingController>[].obs;
+  // TextEditingController burnTemperature1 = TextEditingController();
+  // TextEditingController burnTemperature2 = TextEditingController();
+  // TextEditingController burnTemperature3 = TextEditingController();
+  // TextEditingController burnTemperature4 = TextEditingController();
+  // TextEditingController burnTemperature5 = TextEditingController();
+  // TextEditingController burnTemperature6 = TextEditingController();
+  // TextEditingController burnTemperature7 = TextEditingController();
+  // TextEditingController burnTemperature8 = TextEditingController();
+  // TextEditingController burnTemperature9 = TextEditingController();
+  // TextEditingController burnTemperature10 = TextEditingController();
+  // TextEditingController burnTemperature11 = TextEditingController();
+  // TextEditingController burnTemperature12 = TextEditingController();
 
   //Throttle  & Fuel Value Position
   TextEditingController throttleActuatorPosition = TextEditingController();
@@ -128,37 +290,37 @@ class AddTaskController extends GetxController {
   RxString oilPressureDifferential = ''.obs; //RadioButton
   TextEditingController oilPressureDifferentialTextField =
       TextEditingController();
-  TextEditingController oilPressureIn = TextEditingController();
-  TextEditingController oilPressureOut = TextEditingController();
+  TextEditingController oilTemperatureIn = TextEditingController();
+  TextEditingController oilTemperatureOut = TextEditingController();
   RxString oilLevelEngine = ''.obs; //RadioButton
 
   //Engine Coolent
-  TextEditingController engineCoolentPressure = TextEditingController();
-  RxString engineCoolentPressureRadioValue = ''.obs; //RadioButton
+  TextEditingController engineCoolantPressure = TextEditingController();
+  RxString engineCoolantPressureRadioValue = ''.obs; //RadioButton
   RxString jacketWaterLevel = ''.obs; //RadioButton
 
   //Auxiliary Coolant
-  RxString auxiliaryCoolantlevel = ''.obs; //RadioButton
+  RxString auxiliaryCoolantlevel1 = ''.obs; //RadioButton
 
   //JacketWaterTemperatures
   TextEditingController jacketWaterTemperaturesIn = TextEditingController();
   TextEditingController jacketWaterTemperaturesOut = TextEditingController();
-  TextEditingController auxCoolentTemperaturesIn = TextEditingController();
-  TextEditingController auxCoolentTemperaturesOut = TextEditingController();
+  TextEditingController auxCoolantTemperaturesIn = TextEditingController();
+  TextEditingController auxCoolantTemperaturesOut = TextEditingController();
 
   //Air Intakes
-  TextEditingController inletAirTempTextfield = TextEditingController();
+  TextEditingController inletAirTemp = TextEditingController();
   RxString inletAirTempRadio = ''.obs; //RadioButton
-  TextEditingController inletAirPressureTextfield = TextEditingController();
+  TextEditingController inletAirPressure = TextEditingController();
   RxString inletAirPressureRadio = ''.obs; //RadioButton
   TextEditingController primaryFuelPressure = TextEditingController();
 
   //Air/Fuel Ratio & Crankcase Pressure
   TextEditingController actualAirToFuelRatio = TextEditingController();
   TextEditingController crankcasePressure = TextEditingController();
-  TextEditingController airFilterRestrictionTextfield = TextEditingController();
+  TextEditingController airFilterRestriction = TextEditingController();
   RxString airFilterRestrictionRadio = ''.obs; //RadioButton
-  RxString hydrolicOil = ''.obs; //RadioButton
+  RxString hydraulicOil = ''.obs; //RadioButton
 
   //Leaks Found
   RxString leaksFound = ''.obs; //RadioButton
@@ -166,8 +328,8 @@ class AddTaskController extends GetxController {
   TextEditingController oilDescription = TextEditingController();
   RxBool isCoolantSelected = false.obs;
   TextEditingController coolantDescription = TextEditingController();
-  RxBool isGassSelected = false.obs;
-  TextEditingController gassDescription = TextEditingController();
+  RxBool isGasSelected = false.obs;
+  TextEditingController gasDescription = TextEditingController();
   RxBool isExhaustSelected = false.obs;
   TextEditingController exhaustDescription = TextEditingController();
   RxBool isAirSelected = false.obs;
@@ -187,18 +349,20 @@ class AddTaskController extends GetxController {
   //Page3
 
   // Hot Compression Test
-  TextEditingController hotCompressionTemperature1 = TextEditingController();
-  TextEditingController hotCompressionTemperature2 = TextEditingController();
-  TextEditingController hotCompressionTemperature3 = TextEditingController();
-  TextEditingController hotCompressionTemperature4 = TextEditingController();
-  TextEditingController hotCompressionTemperature5 = TextEditingController();
-  TextEditingController hotCompressionTemperature6 = TextEditingController();
-  TextEditingController hotCompressionTemperature7 = TextEditingController();
-  TextEditingController hotCompressionTemperature8 = TextEditingController();
-  TextEditingController hotCompressionTemperature9 = TextEditingController();
-  TextEditingController hotCompressionTemperature10 = TextEditingController();
-  TextEditingController hotCompressionTemperature11 = TextEditingController();
-  TextEditingController hotCompressionTemperature12 = TextEditingController();
+  List<TextEditingController> hotCompressionTemperatureControllers =
+      <TextEditingController>[].obs;
+  // TextEditingController hotCompressionTemperature1 = TextEditingController();
+  // TextEditingController hotCompressionTemperature2 = TextEditingController();
+  // TextEditingController hotCompressionTemperature3 = TextEditingController();
+  // TextEditingController hotCompressionTemperature4 = TextEditingController();
+  // TextEditingController hotCompressionTemperature5 = TextEditingController();
+  // TextEditingController hotCompressionTemperature6 = TextEditingController();
+  // TextEditingController hotCompressionTemperature7 = TextEditingController();
+  // TextEditingController hotCompressionTemperature8 = TextEditingController();
+  // TextEditingController hotCompressionTemperature9 = TextEditingController();
+  // TextEditingController hotCompressionTemperature10 = TextEditingController();
+  // TextEditingController hotCompressionTemperature11 = TextEditingController();
+  // TextEditingController hotCompressionTemperature12 = TextEditingController();
 
   //Value Set
   TextEditingController intakeValueSet = TextEditingController();
@@ -278,7 +442,7 @@ class AddTaskController extends GetxController {
 
   //   Coolant System Check
   RxString jacketWaterCoolantLevel = ''.obs; //RadioButton
-  RxString auxiliaryCoolantLevel = ''.obs; //RadioButton
+  RxString auxiliaryCoolantLevel2 = ''.obs; //RadioButton
 
   //   Temperature and Pressure Check
   RxString allTempsAndPressuresStableAndNormalRanges = ''.obs; //RadioButton
@@ -305,9 +469,6 @@ class AddTaskController extends GetxController {
   TextEditingController partDescription = TextEditingController();
   TextEditingController partQuantity = TextEditingController();
   TextEditingController partVendor = TextEditingController();
-
-  //   List of Parts
-  List<SinglePartModel> partsList = <SinglePartModel>[].obs;
 
   void setActivePage(int index) {
     activePageIndex.value = index;
@@ -336,9 +497,35 @@ class AddTaskController extends GetxController {
     }
   }
 
-  @override
-  void onClose() {
-    scrollController.dispose();
-    super.onClose();
+  void scrollUp() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(0.0,
+          duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    }
+  }
+
+  void scrollDown() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(0x7fffffff,
+          duration: const Duration(seconds: 1), curve: Curves.easeInOut);
+    }
   }
 }
+
+//double _previousScrollPosition = 0.0;
+
+// to change the color of appbar icons and title when scroll down.
+// void onInit() {
+//   super.onInit();
+//   scrollController.addListener(() {
+//     double currentScrollPosition = scrollController.position.pixels;
+//     if (currentScrollPosition > _previousScrollPosition) {
+//       // Scrolling down
+//       isScrolledUp.value = false;
+//     } else {
+//       // Scrolling up
+//       isScrolledUp.value = true;
+//     }
+//     _previousScrollPosition = currentScrollPosition;
+//   });
+// }

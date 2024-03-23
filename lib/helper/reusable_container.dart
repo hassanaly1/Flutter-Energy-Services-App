@@ -34,8 +34,8 @@ class ReUsableContainer extends StatelessWidget {
   Widget _buildContainer() {
     return Container(
       height: height,
-      padding: padding ??
-          const EdgeInsets.symmetric(horizontal: 12.0, vertical: 4.0),
+      padding:
+          padding ?? const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       decoration: BoxDecoration(
         color: color ?? Colors.white,
         borderRadius: BorderRadius.circular(borderRadius ?? 12.0),
@@ -47,7 +47,7 @@ class ReUsableContainer extends StatelessWidget {
             ? [
                 const BoxShadow(
                   color: Colors.black26,
-                  blurRadius: 6.0,
+                  blurRadius: 3.0,
                   spreadRadius: 1.0,
                 ),
                 const BoxShadow(

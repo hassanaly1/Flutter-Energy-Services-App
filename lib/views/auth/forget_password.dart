@@ -3,7 +3,6 @@ import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
 import 'package:energy_services/views/auth/login.dart';
-import 'package:energy_services/views/auth/signup.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

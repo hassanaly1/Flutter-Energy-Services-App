@@ -1,6 +1,7 @@
 import 'package:energy_services/controllers/task_controllers.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
+import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/views/home/new_task/widgets/heading&textfield.dart';
 import 'package:energy_services/views/home/new_task/widgets/radio_button.dart';
 import 'package:flutter/material.dart';
@@ -24,75 +25,99 @@ class CustomStepperBody1 extends StatelessWidget {
           topRight: Radius.circular(40.0),
         ),
       ),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            HeadingAndTextfield(
-                title: 'Select Location',
-                readOnly: true,
-                prefixIcon: Icon(Icons.location_on_outlined,
-                    color: AppColors.blueTextColor)),
-            Row(
+      child: ListView(
+        children: [
+          ReUsableContainer(
+            showBackgroundShadow: false,
+            color: Colors.grey.shade300,
+            child: Column(
               children: [
-                Flexible(
-                  child: HeadingAndTextfield(
-                      title: 'Set Unit', keyboardType: TextInputType.number),
+                HeadingAndTextfield(
+                    title: 'Select Location',
+                    controller: controller.selectedLocation,
+                    readOnly: true,
+                    prefixIcon: Icon(Icons.location_on_outlined,
+                        color: AppColors.blueTextColor)),
+                Row(
+                  children: [
+                    Flexible(
+                      child: HeadingAndTextfield(
+                          title: 'Set Unit',
+                          controller: controller.setUnits,
+                          keyboardType: TextInputType.number),
+                    ),
+                    Flexible(
+                      child: HeadingAndTextfield(
+                          title: 'Unit Hours',
+                          controller: controller.unitHours,
+                          keyboardType: TextInputType.number),
+                    )
+                  ],
                 ),
-                Flexible(
-                  child: HeadingAndTextfield(
-                      title: 'Unit Hours', keyboardType: TextInputType.number),
-                )
-              ],
-            ),
-            Row(
-              children: [
-                Flexible(
-                    child:
-                        HeadingAndTextfield(title: 'Set Date', readOnly: true)),
-                Flexible(
-                    child:
-                        HeadingAndTextfield(title: 'Set Time', readOnly: true))
-              ],
-            ),
-            HeadingAndTextfield(title: 'Name of JOURNEYMAN'),
-            CustomRadioButton(
-              heading: 'Unit Online on Arrival?',
-              options: const ['yes', 'no'],
-              selectedOption: controller.unitOnlineOnArrival,
-            ),
-            HeadingAndTextfield(title: 'Job Scope', maxLines: 5),
-            HeadingAndTextfield(
-                title: 'Report Any Operations Problems', maxLines: 5),
-            HeadingAndTextfield(title: 'Engine Brand'),
-            Row(children: [
-              Flexible(
-                  child: HeadingAndTextfield(
-                      title: 'Model Number',
-                      keyboardType: TextInputType.number)),
-              Flexible(
-                  child: HeadingAndTextfield(
-                      title: 'Serial Number',
-                      keyboardType: TextInputType.number))
-            ]),
-            HeadingAndTextfield(title: 'Arrangement Number'),
-            CustomRadioButton(
-              heading: 'Oil Sample (s) Taken?',
-              options: const ['yes', 'no'],
-              selectedOption: controller.oilSamplesTaken,
-            ),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomButton(
-                      buttonText: 'Next',
-                      onTap: () {
-                        controller.nextPage();
-                      }),
+                Row(
+                  children: [
+                    Flexible(
+                        child: HeadingAndTextfield(
+                            title: 'Set Date',
+                            // controller: controller.selectDate,
+                            readOnly: true)),
+                    Flexible(
+                        child: HeadingAndTextfield(
+                            title: 'Set Time',
+                            // controller: controller.selectTime,
+                            readOnly: true))
+                  ],
+                ),
+                HeadingAndTextfield(
+                  title: 'Name of JOURNEYMAN',
+                  controller: controller.nameOfJourneyMan,
+                ),
+                CustomRadioButton(
+                  heading: 'Unit Online on Arrival?',
+                  options: const ['yes', 'no'],
+                  selectedOption: controller.unitOnlineOnArrival,
+                ),
+                HeadingAndTextfield(
+                  title: 'Job Scope',
+                  maxLines: 5,
+                  controller: controller.jobScope,
+                ),
+                HeadingAndTextfield(
+                  title: 'Report Any Operations Problems',
+                  maxLines: 5,
+                  controller: controller.operationalProblems,
+                ),
+                HeadingAndTextfield(title: 'Engine Brand'),
+                Row(children: [
+                  Flexible(
+                      child: HeadingAndTextfield(
+                          title: 'Model Number',
+                          controller: controller.modelNumber,
+                          keyboardType: TextInputType.number)),
+                  Flexible(
+                      child: HeadingAndTextfield(
+                          title: 'Serial Number',
+                          controller: controller.serialNumber,
+                          keyboardType: TextInputType.number))
+                ]),
+                HeadingAndTextfield(
+                    title: 'Arrangement Number',
+                    controller: controller.arrangementNumber,
+                    keyboardType: TextInputType.number),
+                CustomRadioButton(
+                  heading: 'Oil Sample (s) Taken?',
+                  options: const ['yes', 'no'],
+                  selectedOption: controller.oilSamplesTaken,
                 ),
               ],
-            )
-          ],
-        ),
+            ),
+          ),
+          CustomButton(
+              buttonText: 'Next',
+              onTap: () {
+                controller.nextPage();
+              })
+        ],
       ),
     );
   }
