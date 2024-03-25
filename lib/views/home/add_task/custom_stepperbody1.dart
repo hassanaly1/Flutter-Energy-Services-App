@@ -1,9 +1,11 @@
+import 'package:energy_services/controllers/googlemap_controller.dart';
 import 'package:energy_services/controllers/task_controllers.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/reusable_container.dart';
-import 'package:energy_services/views/home/new_task/widgets/heading&textfield.dart';
-import 'package:energy_services/views/home/new_task/widgets/radio_button.dart';
+import 'package:energy_services/views/home/add_task/select_location.dart';
+import 'package:energy_services/views/home/add_task/widgets/heading&textfield.dart';
+import 'package:energy_services/views/home/add_task/widgets/radio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -32,12 +34,18 @@ class CustomStepperBody1 extends StatelessWidget {
             color: Colors.grey.shade300,
             child: Column(
               children: [
-                HeadingAndTextfield(
-                    title: 'Select Location',
-                    controller: controller.selectedLocation,
-                    readOnly: true,
-                    prefixIcon: Icon(Icons.location_on_outlined,
-                        color: AppColors.blueTextColor)),
+                Obx(
+                  () => HeadingAndTextfield(
+                      title: 'Select Location',
+                      onTap: () => Get.to(() => GoogleMapScreen()),
+                      hintText: controller.selectedAddress?.value == ""
+                          ? 'Select Location'
+                          : controller.selectedAddress?.value,
+                      // controller: controller.selectedLocation,
+                      readOnly: true,
+                      prefixIcon: Icon(Icons.location_on_outlined,
+                          color: AppColors.blueTextColor)),
+                ),
                 Row(
                   children: [
                     Flexible(
@@ -54,19 +62,35 @@ class CustomStepperBody1 extends StatelessWidget {
                     )
                   ],
                 ),
-                Row(
-                  children: [
-                    Flexible(
+                Obx(
+                  () => Row(
+                    children: [
+                      Flexible(
                         child: HeadingAndTextfield(
-                            title: 'Set Date',
-                            // controller: controller.selectDate,
-                            readOnly: true)),
-                    Flexible(
+                          title: 'Select Date',
+                          hintText:
+                              '${controller.taskSelectedDate.value.day.toString().padLeft(2, '0')} : ${controller.taskSelectedDate.value.month.toString().padLeft(2, '0')} : ${controller.taskSelectedDate.value.year.toString().padLeft(2, '0')}',
+                          onTap: () => controller.selectDate(context),
+                          readOnly: true,
+                          // onChanged: (value) {
+                          //   controller.selectDate(context);
+                          // },
+                        ),
+                      ),
+                      Flexible(
                         child: HeadingAndTextfield(
-                            title: 'Set Time',
-                            // controller: controller.selectTime,
-                            readOnly: true))
-                  ],
+                          title: 'Select Time',
+                          hintText:
+                              '${controller.taskSelectedTime.value.format(context)..padLeft(2, '0')} ',
+                          onTap: () => controller.selectTime(context),
+                          readOnly: true,
+                          // onChanged: (value) {
+                          //   controller.selectTime(context);
+                          // },
+                        ),
+                      )
+                    ],
+                  ),
                 ),
                 HeadingAndTextfield(
                   title: 'Name of JOURNEYMAN',

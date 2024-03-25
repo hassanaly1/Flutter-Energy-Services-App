@@ -4,8 +4,10 @@ import 'package:flutter/cupertino.dart';
 
 class HeadingAndTextfield extends StatelessWidget {
   final String title;
+  final String? hintText;
   final bool? readOnly;
-
+  final VoidCallback? onTap;
+  void Function(String)? onChanged;
   int? maxLines;
   Widget? prefixIcon;
   Widget? suffixIcon;
@@ -15,9 +17,12 @@ class HeadingAndTextfield extends StatelessWidget {
   HeadingAndTextfield(
       {super.key,
       required this.title,
+      this.hintText,
+      this.onTap,
       this.readOnly,
       this.validator,
       this.controller,
+      this.onChanged,
       this.maxLines,
       this.suffixIcon,
       this.prefixIcon,
@@ -37,8 +42,10 @@ class HeadingAndTextfield extends StatelessWidget {
           ),
           ReUsableTextField(
             controller: controller,
+            onChanged: onChanged,
+            onTap: onTap,
             readOnly: readOnly,
-            hintText: title,
+            hintText: hintText ?? title,
             maxLines: maxLines,
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon,

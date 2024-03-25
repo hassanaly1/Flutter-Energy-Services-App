@@ -1,13 +1,17 @@
+import 'package:energy_services/controllers/universal_controller.dart';
 import 'package:energy_services/helper/appbar.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
+import 'package:energy_services/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class ViewAllTasksScreen extends StatelessWidget {
-  const ViewAllTasksScreen({super.key});
+  ViewAllTasksScreen({super.key});
+
+  final UniversalController controller = Get.find();
 
   @override
   Widget build(BuildContext context) {
@@ -75,12 +79,21 @@ class ViewAllTasksScreen extends StatelessWidget {
                   children: [
                     Image.asset('assets/images/view-task.png',
                         height: context.height * 0.15),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: 10,
-                      itemBuilder: (context, index) => const CustomTaskCard(),
-                    )
+                    controller.tasks.isEmpty
+                        ? Center(
+                            child: CustomTextWidget(
+                            text: 'No Tasks Added',
+                            fontSize: 16.0,
+                            fontWeight: FontWeight.w600,
+                          ))
+                        : ListView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: controller.tasks.length,
+                            itemBuilder: (context, index) => CustomTaskCard(
+                              model: controller.tasks[index],
+                            ),
+                          )
                   ],
                 ),
               ),
@@ -93,8 +106,10 @@ class ViewAllTasksScreen extends StatelessWidget {
 }
 
 class CustomTaskCard extends StatelessWidget {
+  final TaskModel model;
   const CustomTaskCard({
     super.key,
+    required this.model,
   });
 
   @override
@@ -111,19 +126,23 @@ class CustomTaskCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 CustomTextWidget(
-                  text: 'Location: Factory A, Unit XYZ',
-                  fontSize: 10.0,
+                  text: model.location ?? 'Not Assigned',
+                  fontSize: 12.0,
                   decoration: TextDecoration.underline,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     CustomTextWidget(
-                      text: 'Date: March 10, 2024',
+                      text: model.selectedDate == null
+                          ? 'Not Assigned'
+                          : '${model.selectedDate?.day.toString().padLeft(2, '0')} : ${model.selectedDate?.month.toString().padLeft(2, '0')} : ${model.selectedDate?.year.toString().padLeft(2, '0')}',
                       fontSize: 10.0,
                     ),
                     CustomTextWidget(
-                      text: 'Time: 09:30 AM',
+                      text: model.selectedTime == null
+                          ? 'Not Assigned'
+                          : '${model.selectedTime?.format(context).padLeft(2, '0')}',
                       fontSize: 10.0,
                     ),
                   ],
@@ -139,7 +158,9 @@ class CustomTaskCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 4.0),
                 CustomTextWidget(
-                  text: 'Journeyman: John Smith',
+                  text: model.nameOfJourneyMan!.isEmpty
+                      ? 'Not Assigned'
+                      : model.nameOfJourneyMan!,
                   fontSize: 16.0,
                   fontWeight: FontWeight.w700,
                 ),
@@ -151,10 +172,10 @@ class CustomTaskCard extends StatelessWidget {
               fontWeight: FontWeight.w500,
             ),
             CustomTextWidget(
-              text: 'Engine Tune-Up and Set Point Specifications',
+              text: model.jobScope!.isEmpty ? 'Not Assigned' : model.jobScope!,
               fontSize: 12.0,
               fontWeight: FontWeight.w300,
-              maxLines: 2,
+              maxLines: 3,
             ),
           ],
         ),

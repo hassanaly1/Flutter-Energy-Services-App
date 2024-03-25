@@ -6,9 +6,10 @@ import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
 import 'package:energy_services/helper/validator.dart';
 import 'package:energy_services/models/single_part_model.dart';
-import 'package:energy_services/views/home/new_task/custom_stepperbody2.dart';
-import 'package:energy_services/views/home/new_task/widgets/heading&textfield.dart';
-import 'package:energy_services/views/home/new_task/widgets/radio_button.dart';
+import 'package:energy_services/views/home/add_task/custom_stepperbody2.dart';
+import 'package:energy_services/views/home/add_task/widgets/heading&textfield.dart';
+import 'package:energy_services/views/home/add_task/widgets/radio_button.dart';
+import 'package:energy_services/views/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -17,7 +18,6 @@ class CustomStepperBody4 extends StatelessWidget {
   CustomStepperBody4({
     super.key,
   });
-
   final AddTaskController controller = Get.find();
   final _partsFormkey = GlobalKey<FormState>();
 
@@ -318,7 +318,14 @@ class CustomStepperBody4 extends StatelessWidget {
               ),
               Expanded(
                 child: CustomButton(
-                    buttonText: 'SUBMIT', onTap: () => controller.addTask()),
+                    buttonText: 'SUBMIT',
+                    onTap: () {
+                      controller.addTask();
+                      Get.offAll(() => const HomeScreen());
+                      // Get.delete<AddTaskController>();
+                      // Get.toNamed('/home');
+                      // Get.offAllNamed('/home');
+                    }),
               ),
             ],
           )

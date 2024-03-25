@@ -114,7 +114,7 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(height: context.height * 0.03),
                         CustomButton(
                           buttonText: 'Login',
-                          onTap: () => Get.to(
+                          onTap: () => Get.offAll(
                             () => const HomeScreen(),
                             transition: Transition.size,
                             duration: const Duration(milliseconds: 700),

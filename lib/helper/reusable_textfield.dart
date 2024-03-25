@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 class ReUsableTextField extends StatelessWidget {
   final String hintText;
   final bool? readOnly;
+  final VoidCallback? onTap;
   int? maxLines;
   Widget? prefixIcon;
   Widget? suffixIcon;
@@ -15,19 +16,21 @@ class ReUsableTextField extends StatelessWidget {
   bool obscureText;
   final String? Function(String?)? validator;
   final bool showBackgroundShadow;
-  ReUsableTextField(
-      {super.key,
-      required this.hintText,
-      this.readOnly,
-      this.prefixIcon,
-      this.suffixIcon,
-      this.maxLines = 1,
-      this.keyboardType,
-      this.controller,
-      this.onChanged,
-      this.obscureText = false,
-      this.showBackgroundShadow = true,
-      this.validator});
+  ReUsableTextField({
+    super.key,
+    required this.hintText,
+    this.onTap,
+    this.readOnly,
+    this.prefixIcon,
+    this.suffixIcon,
+    this.maxLines = 1,
+    this.keyboardType,
+    this.controller,
+    this.onChanged,
+    this.obscureText = false,
+    this.showBackgroundShadow = true,
+    this.validator,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +39,7 @@ class ReUsableTextField extends StatelessWidget {
       verticalPadding: context.height * 0.015,
       child: TextFormField(
         readOnly: readOnly ?? false,
+        onTap: onTap,
         // textAlignVertical: TextAlignVertical.bottom,
         //  onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         controller: controller,

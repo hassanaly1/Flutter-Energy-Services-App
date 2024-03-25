@@ -41,6 +41,10 @@ dependencies:
   easy_stepper: ^0.8.3
   font_awesome_flutter: ^10.7.0
   fluttertoast: ^8.2.4
+  geolocator: ^11.0.0
+  google_maps_flutter: ^2.2.8
+  permission_handler: ^11.3.0
+  geocoding: ^3.0.0
 
 dev_dependencies:
   flutter_test:

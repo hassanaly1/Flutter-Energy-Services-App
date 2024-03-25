@@ -1,12 +1,13 @@
 import 'package:energy_services/models/single_part_model.dart';
+import 'package:flutter/material.dart';
 
 class TaskModel {
   //Page1 -> 14 fields.
   String? location;
   double? setUnits;
   double? unitHours;
-  DateTime? selectDate;
-  DateTime? selectTime;
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
   String? nameOfJourneyMan;
   String? unitOnlineOnArrival;
   String? jobScope;
@@ -143,8 +144,8 @@ class TaskModel {
     this.location,
     this.setUnits,
     this.unitHours,
-    this.selectDate,
-    this.selectTime,
+    this.selectedDate,
+    this.selectedTime,
     this.nameOfJourneyMan,
     this.unitOnlineOnArrival,
     this.jobScope,

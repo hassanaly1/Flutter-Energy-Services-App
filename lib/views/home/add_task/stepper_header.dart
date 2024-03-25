@@ -22,14 +22,16 @@ class StepperHeader extends StatelessWidget {
             onStepReached: (index) {
               controller.setActivePage(index);
             },
+
+            borderThickness: 4,
+            stepRadius: 35,
             disableScroll: true,
             padding: EdgeInsets.zero,
             internalPadding: 4.0,
-            // enableStepTapping: false,
-            loadingAnimation: 'assets/lottie/loading-animation.json',
             stepShape: StepShape.circle,
-            borderThickness: 4,
-            stepRadius: 35,
+            // enableStepTapping: false,
+            showLoadingAnimation: true,
+            loadingAnimation: 'assets/lottie/loading-animation.json',
             unreachedStepBorderColor: AppColors.blueTextColor.withOpacity(0.3),
             finishedStepBorderType: BorderType.normal,
             finishedStepBorderColor: AppColors.primaryColor,
@@ -37,33 +39,33 @@ class StepperHeader extends StatelessWidget {
             finishedStepBackgroundColor: AppColors.primaryColor,
             activeStepIconColor: AppColors.primaryColor,
             finishedStepIconColor: AppColors.blueTextColor,
-            showLoadingAnimation: true,
+
             unreachedStepBackgroundColor: Colors.transparent,
             steps: [
               EasyStep(
-                  customStep: Opacity(
-                      opacity: controller.activePageIndex.value >= 0 ? 1 : 0.3,
-                      child: Icon(controller.activePageIndex.value >= 0
-                          ? FontAwesomeIcons.circleCheck
-                          : FontAwesomeIcons.circleCheck))),
+                customStep: Opacity(
+                  opacity: controller.activePageIndex.value >= 0 ? 1 : 0.3,
+                  child: const Icon(FontAwesomeIcons.circleCheck),
+                ),
+              ),
               EasyStep(
-                  customStep: Opacity(
-                      opacity: controller.activePageIndex.value >= 1 ? 1 : 0.3,
-                      child: Icon(controller.activePageIndex.value >= 1
-                          ? FontAwesomeIcons.circleCheck
-                          : FontAwesomeIcons.circleCheck))),
+                customStep: Opacity(
+                  opacity: controller.activePageIndex.value >= 1 ? 1 : 0.3,
+                  child: const Icon(FontAwesomeIcons.circleCheck),
+                ),
+              ),
               EasyStep(
-                  customStep: Opacity(
-                      opacity: controller.activePageIndex.value >= 2 ? 1 : 0.3,
-                      child: Icon(controller.activePageIndex.value >= 2
-                          ? FontAwesomeIcons.circleCheck
-                          : FontAwesomeIcons.circleCheck))),
+                customStep: Opacity(
+                  opacity: controller.activePageIndex.value >= 2 ? 1 : 0.3,
+                  child: const Icon(FontAwesomeIcons.circleCheck),
+                ),
+              ),
               EasyStep(
-                  customStep: Opacity(
-                      opacity: controller.activePageIndex.value >= 3 ? 1 : 0.3,
-                      child: Icon(controller.activePageIndex.value >= 3
-                          ? FontAwesomeIcons.circleCheck
-                          : FontAwesomeIcons.circleCheck))),
+                customStep: Opacity(
+                  opacity: controller.activePageIndex.value >= 3 ? 1 : 0.3,
+                  child: const Icon(FontAwesomeIcons.circleCheck),
+                ),
+              ),
             ],
           ),
         ));

@@ -6,17 +6,20 @@ import 'package:get/get.dart';
 class ReUsableAppbar extends StatelessWidget {
   final String title;
   final Color? iconColor;
+  final Color? backgroundColor;
   final bool showBackArrow;
   const ReUsableAppbar({
     super.key,
     required this.title,
     this.showBackArrow = true,
     this.iconColor = Colors.white,
+    this.backgroundColor = Colors.transparent,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      color: backgroundColor,
       padding: const EdgeInsets.all(12.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,

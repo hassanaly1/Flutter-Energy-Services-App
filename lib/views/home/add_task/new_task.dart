@@ -1,19 +1,20 @@
+import 'package:energy_services/controllers/googlemap_controller.dart';
 import 'package:energy_services/controllers/task_controllers.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/profile_avatar.dart';
 import 'package:energy_services/helper/reusable_container.dart';
-import 'package:energy_services/views/home/new_task/custom_stepperbody1.dart';
-import 'package:energy_services/views/home/new_task/custom_stepperbody2.dart';
-import 'package:energy_services/views/home/new_task/custom_stepperbody3.dart';
-import 'package:energy_services/views/home/new_task/custom_stepperbody4.dart';
-import 'package:energy_services/views/home/new_task/stepper_header.dart';
+import 'package:energy_services/views/home/add_task/custom_stepperbody1.dart';
+import 'package:energy_services/views/home/add_task/custom_stepperbody2.dart';
+import 'package:energy_services/views/home/add_task/custom_stepperbody3.dart';
+import 'package:energy_services/views/home/add_task/custom_stepperbody4.dart';
+import 'package:energy_services/views/home/add_task/stepper_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NewTaskScreen extends StatelessWidget {
   NewTaskScreen({super.key});
-
+  final MapController mapController = Get.put(MapController());
   final AddTaskController controller = Get.put(AddTaskController());
 
   @override
@@ -134,9 +135,7 @@ class NewTaskScreen extends StatelessWidget {
                                             'Steps ${controller.activePageIndex.value + 1} of 4',
                                         fontSize: 18.0,
                                         fontWeight: FontWeight.w600,
-                                        textColor: controller.isScrolledUp.value
-                                            ? Colors.black87
-                                            : Colors.white70,
+                                        textColor: Colors.white70,
                                         textAlign: TextAlign.center,
                                       ),
                                     ),

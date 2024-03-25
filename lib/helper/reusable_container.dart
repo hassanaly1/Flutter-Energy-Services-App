@@ -10,6 +10,7 @@ class ReUsableContainer extends StatelessWidget {
   final bool showBackgroundShadow;
   final Color? color;
   double? height;
+  double? width;
 
   ReUsableContainer({
     super.key,
@@ -17,6 +18,7 @@ class ReUsableContainer extends StatelessWidget {
     this.padding,
     this.verticalPadding,
     this.height,
+    this.width,
     this.borderRadius,
     this.showBackgroundShadow = true,
     this.color,
@@ -34,6 +36,7 @@ class ReUsableContainer extends StatelessWidget {
   Widget _buildContainer() {
     return Container(
       height: height,
+      width: width,
       padding:
           padding ?? const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       decoration: BoxDecoration(

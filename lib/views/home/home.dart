@@ -2,9 +2,9 @@ import 'package:energy_services/helper/appbar.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
+import 'package:energy_services/views/home/add_task/new_task.dart';
 import 'package:energy_services/views/home/all_tasks.dart';
 import 'package:energy_services/views/home/engines.dart';
-import 'package:energy_services/views/home/new_task/new_task.dart';
 import 'package:energy_services/views/home/reports.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -116,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             DashboardCard(
                               onTap: () => Get.to(
-                                () => const ViewAllTasksScreen(),
+                                () => ViewAllTasksScreen(),
                                 transition: Transition.size,
                               ),
                               title: 'View Tasks',

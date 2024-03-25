@@ -5,9 +5,10 @@ import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
 import 'package:energy_services/helper/toast.dart';
-import 'package:energy_services/views/home/new_task/widgets/checkbox.dart';
-import 'package:energy_services/views/home/new_task/widgets/heading&textfield.dart';
-import 'package:energy_services/views/home/new_task/widgets/radio_button.dart';
+import 'package:energy_services/views/home/add_task/widgets/checkbox.dart';
+import 'package:energy_services/views/home/add_task/widgets/heading&textfield.dart';
+import 'package:energy_services/views/home/add_task/widgets/radio_button.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

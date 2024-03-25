@@ -1,19 +1,24 @@
-
+import 'package:energy_services/controllers/googlemap_controller.dart';
+import 'package:energy_services/controllers/universal_controller.dart';
+import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/models/single_part_model.dart';
 import 'package:energy_services/models/task_model.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class AddTaskController extends GetxController {
+  List<SinglePartModel> partsList = <SinglePartModel>[].obs; //List of Parts
   var activePageIndex = 0.obs;
   final ScrollController scrollController = ScrollController();
-  RxBool isScrolledUp = false.obs;
 
-  List<TaskModel> tasks = <TaskModel>[].obs;
-  List<SinglePartModel> partsList = <SinglePartModel>[].obs; //List of Parts
+  final UniversalController controller = Get.find();
+  final MapController mapController = Get.find();
 
   @override
   void onInit() {
+    selectedAddress = mapController.selectedAddress;
+    taskSelectedDate = DateTime.now().obs;
+    taskSelectedTime = TimeOfDay.now().obs;
     pyrometerTemperatureControllers.add(TextEditingController());
     pyrometerTemperatureControllers.add(TextEditingController());
     burnTemperatureControllers.add(TextEditingController());
@@ -30,15 +35,13 @@ class AddTaskController extends GetxController {
   }
 
   void addTask() {
-    debugPrint(tasks.first.setUnits.toString());
-    debugPrint(tasks.first.unitHours.toString());
     TaskModel newTask = TaskModel(
       //Page1
-      location: selectedLocation.text.trim(),
+      location: selectedAddress?.value,
       setUnits: double.tryParse(setUnits.text.trim()),
       unitHours: double.tryParse(unitHours.text.trim()),
-      // selectDate: selectDate,
-      // selectTime: selectTime,
+      selectedDate: taskSelectedDate.value,
+      selectedTime: taskSelectedTime.value,
       nameOfJourneyMan: nameOfJourneyMan.text.trim(),
       unitOnlineOnArrival: unitOnlineOnArrival.value,
       jobScope: jobScope.text.trim(),
@@ -182,18 +185,20 @@ class AddTaskController extends GetxController {
       partsOrderingStatus: partsOrderingStatus.value,
       partsList: partsList,
     );
-    tasks.add(newTask);
+    controller.tasks.add(newTask);
+    debugPrint(controller.tasks.first.setUnits.toString());
+    debugPrint(controller.tasks.first.unitHours.toString());
   }
 
   //-----------------------------------------------------------------------//
 
   //Page1
 
-  TextEditingController selectedLocation = TextEditingController();
+  RxString? selectedAddress = RxString('');
   TextEditingController setUnits = TextEditingController();
   TextEditingController unitHours = TextEditingController();
-  late DateTime selectDate;
-  late DateTime selectTime;
+  late Rx<DateTime> taskSelectedDate;
+  late Rx<TimeOfDay> taskSelectedTime;
   TextEditingController nameOfJourneyMan = TextEditingController();
   RxString unitOnlineOnArrival = ''.obs;
   TextEditingController jobScope = TextEditingController();
@@ -501,6 +506,34 @@ class AddTaskController extends GetxController {
     if (scrollController.hasClients) {
       scrollController.animateTo(0.0,
           duration: const Duration(seconds: 1), curve: Curves.fastOutSlowIn);
+    }
+  }
+
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      barrierColor: AppColors.blueTextColor,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      confirmText: 'Select Date',
+      lastDate: DateTime(2101),
+      helpText: 'Select the Date',
+    );
+    if (pickedDate != null && pickedDate != taskSelectedDate.value) {
+      taskSelectedDate.value = pickedDate;
+    }
+  }
+
+  Future<void> selectTime(BuildContext context) async {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      barrierColor: AppColors.blueTextColor,
+      confirmText: 'Select Time',
+      helpText: 'Select the Time',
+    );
+    if (pickedTime != null && pickedTime != taskSelectedTime.value) {
+      taskSelectedTime.value = pickedTime;
     }
   }
 
