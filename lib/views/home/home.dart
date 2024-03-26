@@ -2,9 +2,9 @@ import 'package:energy_services/helper/appbar.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
-import 'package:energy_services/views/home/add_task/new_task.dart';
+import 'package:energy_services/views/home/add_task/add_task.dart';
 import 'package:energy_services/views/home/all_tasks.dart';
-import 'package:energy_services/views/home/engines.dart';
+import 'package:energy_services/views/home/engines/engines.dart';
 import 'package:energy_services/views/home/reports.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,18 +19,35 @@ class HomeScreen extends StatelessWidget {
       child: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset('assets/images/home-bg.png', fit: BoxFit.cover),
+          Image.asset('assets/images/home-bg.png', fit: BoxFit.fill),
           Scaffold(
             backgroundColor: Colors.transparent,
             body: Column(
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 12.0, right: 12.0),
-                  child: ReUsableAppbar(title: '', showBackArrow: false),
-                ),
-                Center(
-                  child: Image.asset('assets/images/applogo-light.png',
-                      height: context.height * 0.1, fit: BoxFit.cover),
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: context.width * 0.01,
+                    right: context.width * 0.01,
+                    bottom: context.width * 0.05,
+                  ),
+                  child: Column(
+                    children: [
+                      ReUsableAppbar(
+                        title: '',
+                        showBackArrow: false,
+                        prefixWidget: Image.asset(
+                            'assets/images/app-logo-white.png',
+                            height: context.height * 0.1,
+                            fit: BoxFit.cover),
+                      ),
+                      CustomTextWidget(
+                        text: 'Service reports made easy',
+                        textColor: Colors.white,
+                        fontSize: 20.0,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ],
+                  ),
                 ),
                 Expanded(
                   child: Container(
@@ -77,12 +94,11 @@ class HomeScreen extends StatelessWidget {
                           children: [
                             DashboardCard(
                               onTap: () => Get.to(
-                                () => NewTaskScreen(),
+                                () => AddTaskScreen(),
                                 transition: Transition.size,
                               ),
                               title: 'Start New Task',
-                              subtitle:
-                                  'Use this button to fill out the engine repair form',
+                              subtitle: 'Equipment Repair',
                               image: 'assets/images/start-task.png',
                             ),
                             Row(
@@ -106,7 +122,7 @@ class HomeScreen extends StatelessWidget {
                                 ),
                                 SmallCard(
                                   onTap: () => Get.to(
-                                    () => const EnginesScreen(),
+                                    () => EnginesScreen(),
                                     transition: Transition.zoom,
                                   ),
                                   title: 'Engines',
@@ -162,8 +178,7 @@ class SmallCard extends StatelessWidget {
             child: Icon(icon, color: Colors.white, size: 40.0),
           ),
         ),
-        const SizedBox(height: 6.0),
-        CustomTextWidget(text: title)
+        CustomTextWidget(text: title, fontSize: 12.0)
       ],
     );
   }
@@ -190,6 +205,7 @@ class DashboardCard extends StatelessWidget {
         onTap: onTap,
         child: ReUsableContainer(
           child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Expanded(
@@ -201,7 +217,11 @@ class DashboardCard extends StatelessWidget {
                       fontSize: 18.0,
                       fontWeight: FontWeight.w700,
                     ),
-                    CustomTextWidget(text: subtitle, maxLines: 3)
+                    CustomTextWidget(
+                      text: subtitle,
+                      maxLines: 3,
+                      fontSize: 12.0,
+                    )
                   ],
                 ),
               ),

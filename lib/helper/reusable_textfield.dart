@@ -38,6 +38,7 @@ class ReUsableTextField extends StatelessWidget {
       showBackgroundShadow: showBackgroundShadow,
       verticalPadding: context.height * 0.015,
       child: TextFormField(
+        focusNode: FocusNode(canRequestFocus: false),
         readOnly: readOnly ?? false,
         onTap: onTap,
         // textAlignVertical: TextAlignVertical.bottom,

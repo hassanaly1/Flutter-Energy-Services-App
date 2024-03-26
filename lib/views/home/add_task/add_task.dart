@@ -12,8 +12,8 @@ import 'package:energy_services/views/home/add_task/stepper_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class NewTaskScreen extends StatelessWidget {
-  NewTaskScreen({super.key});
+class AddTaskScreen extends StatelessWidget {
+  AddTaskScreen({super.key});
   final MapController mapController = Get.put(MapController());
   final AddTaskController controller = Get.put(AddTaskController());
 
@@ -22,28 +22,7 @@ class NewTaskScreen extends StatelessWidget {
     return MaterialApp(
       home: SafeArea(
         child: Container(
-          decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Color.fromRGBO(255, 220, 105, 0.4),
-                  Color.fromRGBO(86, 127, 255, 0.4),
-                ],
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 5.0,
-                  spreadRadius: 5.0,
-                ),
-                BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(0.0, 0.0),
-                  blurRadius: 0.0,
-                  spreadRadius: 0.0,
-                ),
-              ]),
+          decoration: reusableDecoration(),
           child: DefaultTabController(
             length: 4,
             child: Scaffold(
@@ -58,6 +37,7 @@ class NewTaskScreen extends StatelessWidget {
                         pinned: true,
                         floating: true,
                         primary: false,
+
                         // title: Padding(
                         //   padding: const EdgeInsets.symmetric(vertical: 8.0),
                         //   child: Obx(
@@ -74,7 +54,7 @@ class NewTaskScreen extends StatelessWidget {
                         //   ),
                         // ),
                         // toolbarHeight: 300,
-                        excludeHeaderSemantics: true,
+                        excludeHeaderSemantics: false,
                         forceMaterialTransparency: false,
 
                         // bottom: PreferredSize(
@@ -114,36 +94,7 @@ class NewTaskScreen extends StatelessWidget {
                         flexibleSpace: ListView(
                           physics: const NeverScrollableScrollPhysics(),
                           children: [
-                            Container(
-                              color: AppColors.blueTextColor,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  IconButton(
-                                      onPressed: () => Get.back(),
-                                      icon: const Icon(
-                                        Icons.arrow_back,
-                                        color: Colors.white70,
-                                      )),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8.0),
-                                    child: Obx(
-                                      () => CustomTextWidget(
-                                        text:
-                                            'Steps ${controller.activePageIndex.value + 1} of 4',
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w600,
-                                        textColor: Colors.white70,
-                                        textAlign: TextAlign.center,
-                                      ),
-                                    ),
-                                  ),
-                                  const ProfileAvatar(),
-                                ],
-                              ),
-                            ),
+                            AddTaskAppbar(controller: controller),
                             TopSection(controller: controller),
                           ],
                         ),
@@ -151,28 +102,7 @@ class NewTaskScreen extends StatelessWidget {
                     ];
                   },
                   body: Container(
-                    decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            Color.fromRGBO(255, 220, 105, 0.4),
-                            Color.fromRGBO(86, 127, 255, 0.4),
-                          ],
-                        ),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black26,
-                            blurRadius: 5.0,
-                            spreadRadius: 5.0,
-                          ),
-                          BoxShadow(
-                            color: Colors.white,
-                            offset: Offset(0.0, 0.0),
-                            blurRadius: 0.0,
-                            spreadRadius: 0.0,
-                          ),
-                        ]),
+                    decoration: reusableDecoration(),
                     child: BottomPageViewSection(controller: controller),
                   )),
               floatingActionButton: FloatingActionButton(
@@ -190,6 +120,47 @@ class NewTaskScreen extends StatelessWidget {
   }
 }
 
+class AddTaskAppbar extends StatelessWidget {
+  const AddTaskAppbar({
+    super.key,
+    required this.controller,
+  });
+
+  final AddTaskController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: context.height * 0.08,
+      color: AppColors.blueTextColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          IconButton(
+              onPressed: () => Get.back(),
+              icon: const Icon(
+                Icons.arrow_back,
+                color: Colors.white70,
+              )),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Obx(
+              () => CustomTextWidget(
+                text: 'Steps ${controller.activePageIndex.value + 1} of 4',
+                fontSize: 18.0,
+                fontWeight: FontWeight.w600,
+                textColor: Colors.white70,
+                textAlign: TextAlign.center,
+              ),
+            ),
+          ),
+          const ProfileAvatar(),
+        ],
+      ),
+    );
+  }
+}
+
 class TopSection extends StatelessWidget {
   const TopSection({
     super.key,
@@ -201,56 +172,29 @@ class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: AppColors.blueTextColor,
+      // height: context.height * 0.25,
+      decoration: reusableDecoration(),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Container(
-            // height: context.height * 0.25,
-            decoration: const BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.centerLeft,
-                end: Alignment.centerRight,
-                colors: [
-                  Color.fromRGBO(255, 220, 105, 0.4),
-                  Color.fromRGBO(86, 127, 255, 0.4),
-                ],
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            child: Obx(
+              () => ReUsableContainer(
+                color: AppColors.primaryColor,
+                child: CustomTextWidget(
+                  text: controller.engineBrand.value == ''
+                      ? 'CAT 3600 SERVICE'
+                      : controller.engineBrand.value,
+                  fontSize: 18.0,
+                  textAlign: TextAlign.center,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black26,
-                  blurRadius: 5.0,
-                  spreadRadius: 5.0,
-                ),
-                BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(0.0, 0.0),
-                  blurRadius: 0.0,
-                  spreadRadius: 0.0,
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                SizedBox(
-                  width: MediaQuery.of(context).size.width,
-                  child: ReUsableContainer(
-                    color: AppColors.primaryColor,
-                    child: CustomTextWidget(
-                      text: 'CAT 3600 SERVICE',
-                      fontSize: 18.0,
-                      textAlign: TextAlign.center,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-                StepperHeader(controller: controller),
-              ],
             ),
           ),
+          StepperHeader(controller: controller),
         ],
       ),
     );
@@ -286,4 +230,30 @@ class BottomPageViewSection extends StatelessWidget {
       ),
     );
   }
+}
+
+BoxDecoration reusableDecoration() {
+  return const BoxDecoration(
+    gradient: LinearGradient(
+      begin: Alignment.centerLeft,
+      end: Alignment.centerRight,
+      colors: [
+        Color.fromRGBO(255, 220, 105, 0.4),
+        Color.fromRGBO(86, 127, 255, 0.4),
+      ],
+    ),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black26,
+        blurRadius: 5.0,
+        spreadRadius: 5.0,
+      ),
+      BoxShadow(
+        color: Colors.white,
+        offset: Offset(0.0, 0.0),
+        blurRadius: 0.0,
+        spreadRadius: 0.0,
+      ),
+    ],
+  );
 }

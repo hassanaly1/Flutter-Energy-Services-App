@@ -24,9 +24,9 @@ class SignupScreen extends StatelessWidget {
                   child: Padding(
                     padding: EdgeInsets.only(
                         top: context.height * 0.05,
-                        bottom: context.height * 0.02),
-                    child: Image.asset('assets/images/app-logo-black.png',
-                        height: context.height * 0.15, fit: BoxFit.cover),
+                        bottom: context.height * 0.05),
+                    child: Image.asset('assets/images/app-logo.png',
+                        height: context.height * 0.12, fit: BoxFit.cover),
                   ),
                 ),
                 Expanded(
@@ -53,99 +53,111 @@ class SignupScreen extends StatelessWidget {
                           spreadRadius: 0.0,
                         ),
                       ]),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      children: [
-                        CustomTextWidget(
-                          text: 'Register Account',
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.w700,
+                  child: Stack(
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Image.asset(
+                          'assets/images/gear.png',
+                          fit: BoxFit.fitWidth,
                         ),
-                        CustomTextWidget(
-                          text: 'Fill the Details to register your account',
-                          fontSize: 12.0,
-                          fontWeight: FontWeight.w500,
-                          textAlign: TextAlign.center,
-                          fontStyle: FontStyle.italic,
-                          maxLines: 4,
-                        ),
-                        Form(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              SizedBox(height: context.height * 0.03),
-                              ReUsableTextField(
-                                  hintText: 'Email',
-                                  prefixIcon: Icon(
-                                    Icons.email_outlined,
-                                    color: AppColors.primaryColor,
-                                  )
-
-                                  // validator: (val) =>
-                                  //     AppValidator.validateEmail(value: val),
-                                  ),
-                              ReUsableTextField(
-                                  hintText: 'Password',
-                                  prefixIcon: Icon(
-                                    Icons.lock_open_rounded,
-                                    color: AppColors.primaryColor,
-                                  )
-                                  // validator: (val) =>
-                                  //     AppValidator.validatePassword(value: val),
-                                  ),
-                              ReUsableTextField(
-                                  hintText: 'Confirm Password',
-                                  prefixIcon: Icon(
-                                    Icons.lock_open_rounded,
-                                    color: AppColors.primaryColor,
-                                  )
-                                  // validator: (val) =>
-                                  //     AppValidator.validatePassword(value: val),
-                                  ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: context.height * 0.03),
-                        CustomButton(
-                          buttonText: 'Register',
-                          onTap: () => Get.to(
-                            () => const LoginScreen(),
-                            transition: Transition.size,
-                            duration: const Duration(seconds: 1),
-                          ),
-                        ),
-                        Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              Get.to(
-                                () => const LoginScreen(),
-                                transition: Transition.size,
-                                duration: const Duration(seconds: 1),
-                              );
-                            },
-                            child: Text.rich(
-                              TextSpan(
-                                text: 'Already have a account? ',
-                                style: const TextStyle(
-                                    fontFamily: 'Poppins',
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 12.0),
+                      ),
+                      SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            CustomTextWidget(
+                              text: 'Register Account',
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.w700,
+                            ),
+                            CustomTextWidget(
+                              text: 'Fill the Details to register your account',
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w500,
+                              textAlign: TextAlign.center,
+                              fontStyle: FontStyle.italic,
+                              maxLines: 4,
+                            ),
+                            Form(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
-                                  TextSpan(
-                                    text: 'Login',
-                                    style: TextStyle(
-                                        color: AppColors.blueTextColor,
-                                        fontFamily: 'Poppins',
-                                        fontWeight: FontWeight.w500,
-                                        fontSize: 14.0),
-                                  ),
+                                  SizedBox(height: context.height * 0.03),
+                                  ReUsableTextField(
+                                      hintText: 'Email',
+                                      prefixIcon: Icon(
+                                        Icons.email_outlined,
+                                        color: AppColors.primaryColor,
+                                      )
+
+                                      // validator: (val) =>
+                                      //     AppValidator.validateEmail(value: val),
+                                      ),
+                                  ReUsableTextField(
+                                      hintText: 'Password',
+                                      prefixIcon: Icon(
+                                        Icons.lock_open_rounded,
+                                        color: AppColors.primaryColor,
+                                      )
+                                      // validator: (val) =>
+                                      //     AppValidator.validatePassword(value: val),
+                                      ),
+                                  ReUsableTextField(
+                                      hintText: 'Confirm Password',
+                                      prefixIcon: Icon(
+                                        Icons.lock_open_rounded,
+                                        color: AppColors.primaryColor,
+                                      )
+                                      // validator: (val) =>
+                                      //     AppValidator.validatePassword(value: val),
+                                      ),
                                 ],
                               ),
                             ),
-                          ),
+                            SizedBox(height: context.height * 0.03),
+                            CustomButton(
+                              buttonText: 'Register',
+                              onTap: () => Get.to(
+                                () => const LoginScreen(),
+                                transition: Transition.size,
+                                duration: const Duration(seconds: 1),
+                              ),
+                            ),
+                            SizedBox(height: context.height * 0.02),
+                            Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Get.to(
+                                    () => const LoginScreen(),
+                                    transition: Transition.size,
+                                    duration: const Duration(seconds: 1),
+                                  );
+                                },
+                                child: Text.rich(
+                                  TextSpan(
+                                    text: 'Already have a account? ',
+                                    style: const TextStyle(
+                                        fontFamily: 'Poppins',
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 12.0),
+                                    children: [
+                                      TextSpan(
+                                        text: 'Login',
+                                        style: TextStyle(
+                                            color: AppColors.blueTextColor,
+                                            fontFamily: 'Poppins',
+                                            fontWeight: FontWeight.w500,
+                                            fontSize: 14.0),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ))
               ],

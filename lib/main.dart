@@ -1,7 +1,6 @@
 import 'package:energy_services/controllers/universal_controller.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/splash.dart';
-import 'package:energy_services/views/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -26,7 +25,7 @@ class MyApp extends StatelessWidget {
         Get.put(UniversalController());
       }),
       debugShowCheckedModeBanner: false,
-      home: const HomeScreen(),
+      home: const SplashScreen(),
     );
   }
 }

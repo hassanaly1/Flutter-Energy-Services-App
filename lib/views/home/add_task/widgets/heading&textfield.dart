@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 
 class HeadingAndTextfield extends StatelessWidget {
   final String title;
+  final double? fontSize;
   final String? hintText;
   final bool? readOnly;
   final VoidCallback? onTap;
@@ -26,7 +27,8 @@ class HeadingAndTextfield extends StatelessWidget {
       this.maxLines,
       this.suffixIcon,
       this.prefixIcon,
-      this.keyboardType});
+      this.keyboardType,
+      this.fontSize});
 
   @override
   Widget build(BuildContext context) {
@@ -38,6 +40,7 @@ class HeadingAndTextfield extends StatelessWidget {
           CustomTextWidget(
             text: title,
             fontWeight: FontWeight.w600,
+            fontSize: fontSize,
             maxLines: 2,
           ),
           ReUsableTextField(

@@ -8,12 +8,14 @@ class ReUsableAppbar extends StatelessWidget {
   final Color? iconColor;
   final Color? backgroundColor;
   final bool showBackArrow;
+  final Widget? prefixWidget;
   const ReUsableAppbar({
     super.key,
     required this.title,
     this.showBackArrow = true,
     this.iconColor = Colors.white,
     this.backgroundColor = Colors.transparent,
+    this.prefixWidget,
   });
 
   @override
@@ -24,10 +26,11 @@ class ReUsableAppbar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-              onPressed: () => showBackArrow ? Get.back() : null,
-              icon: Icon(Icons.arrow_back_ios,
-                  color: showBackArrow ? iconColor : Colors.transparent)),
+          prefixWidget ??
+              IconButton(
+                  onPressed: () => showBackArrow ? Get.back() : null,
+                  icon: Icon(Icons.arrow_back_ios,
+                      color: showBackArrow ? iconColor : Colors.transparent)),
           CustomTextWidget(
             text: title,
             fontWeight: FontWeight.w700,

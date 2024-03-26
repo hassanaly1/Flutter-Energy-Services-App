@@ -1,11 +1,13 @@
-import 'package:energy_services/controllers/googlemap_controller.dart';
 import 'package:energy_services/controllers/task_controllers.dart';
+import 'package:energy_services/controllers/universal_controller.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
+import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/views/home/add_task/select_location.dart';
 import 'package:energy_services/views/home/add_task/widgets/heading&textfield.dart';
 import 'package:energy_services/views/home/add_task/widgets/radio_button.dart';
+import 'package:energy_services/views/home/engines/engines.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,6 +16,7 @@ class CustomStepperBody1 extends StatelessWidget {
     super.key,
   });
 
+  final UniversalController universalController = Get.find();
   final AddTaskController controller = Get.find();
 
   @override
@@ -92,6 +95,19 @@ class CustomStepperBody1 extends StatelessWidget {
                     ],
                   ),
                 ),
+                Obx(
+                  () => HeadingAndTextfield(
+                    title: 'Engine Brand',
+                    hintText: controller.engineBrand.value == ''
+                        ? 'Select Engine Brand'
+                        : controller.engineBrand.value,
+                    readOnly: true,
+                    onTap: () => _openSelectEngineDialog(
+                        context: context,
+                        controller: universalController,
+                        taskController: controller),
+                  ),
+                ),
                 HeadingAndTextfield(
                   title: 'Name of JOURNEYMAN',
                   controller: controller.nameOfJourneyMan,
@@ -111,7 +127,6 @@ class CustomStepperBody1 extends StatelessWidget {
                   maxLines: 5,
                   controller: controller.operationalProblems,
                 ),
-                HeadingAndTextfield(title: 'Engine Brand'),
                 Row(children: [
                   Flexible(
                       child: HeadingAndTextfield(
@@ -145,4 +160,54 @@ class CustomStepperBody1 extends StatelessWidget {
       ),
     );
   }
+}
+
+_openSelectEngineDialog(
+    {required BuildContext context,
+    required UniversalController controller,
+    required AddTaskController taskController}) {
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: true,
+    barrierLabel: 'Dismiss',
+    transitionDuration: const Duration(milliseconds: 400),
+    pageBuilder: (context, animation, secondaryAnimation) => Container(),
+    transitionBuilder: (context, animation, secondaryAnimation, child) {
+      return ScaleTransition(
+        scale: Tween<double>(begin: 0.5, end: 1.0).animate(animation),
+        child: FadeTransition(
+          opacity: Tween<double>(begin: 0.5, end: 1.0).animate(animation),
+          child: AlertDialog(
+            scrollable: true,
+            backgroundColor: Colors.transparent,
+            // title: CustomTextWidget(text: 'Hello'),
+            content: Container(
+              width: double.infinity,
+              padding: EdgeInsets.symmetric(
+                  horizontal: 8.0, vertical: context.height * 0.02),
+              decoration: const BoxDecoration(
+                color: Colors.white60,
+                borderRadius: BorderRadius.all(Radius.circular(12.0)),
+              ),
+              child: ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: controller.engines.length,
+                itemBuilder: (context, index) {
+                  final engine = controller.engines[index];
+                  return CustomEngineCard(
+                    model: engine,
+                    onTap: () {
+                      taskController.engineBrand.value = engine.name ?? '';
+                      Get.back();
+                    },
+                  );
+                },
+              ),
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }

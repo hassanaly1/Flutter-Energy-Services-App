@@ -1,5 +1,4 @@
 import 'package:energy_services/helper/custom_button.dart';
-import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/views/auth/login.dart';
 import 'package:energy_services/views/auth/signup.dart';
 import 'package:flutter/material.dart';
@@ -32,34 +31,29 @@ class StartScreen extends StatelessWidget {
                     image: AssetImage('assets/images/background_shadow.png'),
                     fit: BoxFit.cover,
                   )),
-              child: Column(
-                children: [
-                  Image.asset('assets/images/app-logo-black.png',
-                      fit: BoxFit.cover),
-                  CustomTextWidget(
-                    text: 'Welcome To Energy Services',
-                    fontSize: 16.0,
-                    fontWeight: FontWeight.w700,
-                  ),
-                  CustomTextWidget(
-                    text:
-                        'streamline task management for mechanics Your ultimate companion for organizing tasks and managing checklists with ease.',
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w500,
-                    textAlign: TextAlign.center,
-                    fontStyle: FontStyle.italic,
-                    maxLines: 4,
-                  ),
-                  SizedBox(height: context.height * 0.1),
-                  CustomButton(
-                    buttonText: 'Login',
-                    onTap: () => Get.offAll(() => const LoginScreen()),
-                  ),
-                  CustomButton(
-                      buttonText: 'Register',
-                      onTap: () => Get.offAll(() => const SignupScreen()),
-                      usePrimaryColor: true),
-                ],
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: context.width * 0.1),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.asset(
+                      'assets/images/app-logo.png',
+                      fit: BoxFit.cover,
+                      height: 120,
+                      width: 150,
+                    ),
+                    SizedBox(height: context.height * 0.1),
+                    CustomButton(
+                      buttonText: 'Login',
+                      onTap: () => Get.offAll(() => const LoginScreen()),
+                    ),
+                    CustomButton(
+                        buttonText: 'Register',
+                        onTap: () => Get.offAll(() => const SignupScreen()),
+                        usePrimaryColor: true),
+                    SizedBox(height: context.height * 0.1),
+                  ],
+                ),
               ),
             ),
           ),

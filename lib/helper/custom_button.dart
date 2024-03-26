@@ -11,6 +11,7 @@ class CustomButton extends StatelessWidget {
   final Color? borderColor;
   final double width;
   final double? height;
+  final double? fontSize;
   final bool usePrimaryColor;
 
   const CustomButton({
@@ -22,6 +23,7 @@ class CustomButton extends StatelessWidget {
     this.borderColor,
     this.height,
     this.usePrimaryColor = false,
+    this.fontSize,
   });
 
   @override
@@ -29,7 +31,7 @@ class CustomButton extends StatelessWidget {
     return GestureDetector(
         onTap: onTap,
         child: ReUsableContainer(
-          verticalPadding: context.height * 0.02,
+          verticalPadding: context.height * 0.01,
           height: height ?? 50,
           color: usePrimaryColor
               ? AppColors.primaryColor
@@ -37,7 +39,7 @@ class CustomButton extends StatelessWidget {
           child: Center(
               child: CustomTextWidget(
             text: buttonText,
-            fontSize: 16,
+            fontSize: fontSize ?? 16,
             textColor: usePrimaryColor ? Colors.black87 : Colors.white,
             fontWeight: FontWeight.w600,
             textAlign: TextAlign.center,

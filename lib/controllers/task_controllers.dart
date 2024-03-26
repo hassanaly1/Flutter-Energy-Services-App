@@ -5,6 +5,7 @@ import 'package:energy_services/models/single_part_model.dart';
 import 'package:energy_services/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_rx/get_rx.dart';
 
 class AddTaskController extends GetxController {
   List<SinglePartModel> partsList = <SinglePartModel>[].obs; //List of Parts
@@ -46,7 +47,7 @@ class AddTaskController extends GetxController {
       unitOnlineOnArrival: unitOnlineOnArrival.value,
       jobScope: jobScope.text.trim(),
       operationalProblems: operationalProblems.text.trim(),
-      engineBrand: engineBrand.text.trim(),
+      engineBrand: engineBrand.value,
       modelNumber: double.tryParse(modelNumber.text.trim()),
       serialNumber: double.tryParse(serialNumber.text.trim()),
       arrangementNumber: double.tryParse(arrangementNumber.text.trim()),
@@ -203,7 +204,7 @@ class AddTaskController extends GetxController {
   RxString unitOnlineOnArrival = ''.obs;
   TextEditingController jobScope = TextEditingController();
   TextEditingController operationalProblems = TextEditingController();
-  TextEditingController engineBrand = TextEditingController();
+  RxString engineBrand = ''.obs;
   TextEditingController modelNumber = TextEditingController();
   TextEditingController serialNumber = TextEditingController();
   TextEditingController arrangementNumber = TextEditingController();
