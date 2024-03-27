@@ -1,7 +1,6 @@
 import 'package:energy_services/controllers/engines_controller.dart';
 import 'package:energy_services/controllers/universal_controller.dart';
 import 'package:energy_services/helper/appbar.dart';
-import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
@@ -220,6 +219,7 @@ void _openAddEngineDialog(
                           controller.generateQrCode();
                           Future.delayed(const Duration(seconds: 2), () {
                             Get.back();
+                            controller.isQrCodeGenerated.value = false;
                           });
                         }
                       },

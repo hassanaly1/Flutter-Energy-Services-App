@@ -8,6 +8,8 @@ import 'package:energy_services/views/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../helper/toast.dart';
+
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
@@ -123,11 +125,16 @@ class LoginScreen extends StatelessWidget {
                             SizedBox(height: context.height * 0.03),
                             CustomButton(
                               buttonText: 'Login',
-                              onTap: () => Get.offAll(
-                                () => const HomeScreen(),
-                                transition: Transition.size,
-                                duration: const Duration(milliseconds: 700),
-                              ),
+                              onTap: () {
+                                Get.offAll(
+                                  () => const HomeScreen(),
+                                  transition: Transition.size,
+                                  duration: const Duration(milliseconds: 700),
+                                );
+                                ToastMessage.showToastMessage(
+                                    message: 'Login Successfully',
+                                    backgroundColor: AppColors.blueTextColor);
+                              },
                             ),
                             SizedBox(height: context.height * 0.02),
                             Center(

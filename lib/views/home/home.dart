@@ -113,10 +113,7 @@ class HomeScreen extends StatelessWidget {
                                   icon: Symbols.lab_profile,
                                 ),
                                 SmallCard(
-                                  onTap: () => Get.to(
-                                    () => const ReportsScreen(),
-                                    transition: Transition.zoom,
-                                  ),
+                                  onTap: () {},
                                   title: 'Customize Units',
                                   icon: Symbols.dashboard_customize,
                                 ),

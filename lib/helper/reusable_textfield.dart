@@ -38,9 +38,9 @@ class ReUsableTextField extends StatelessWidget {
       showBackgroundShadow: showBackgroundShadow,
       verticalPadding: context.height * 0.015,
       child: TextFormField(
-        focusNode: FocusNode(canRequestFocus: false),
         readOnly: readOnly ?? false,
         onTap: onTap,
+
         // textAlignVertical: TextAlignVertical.bottom,
         //  onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
         controller: controller,
@@ -76,21 +76,6 @@ class ReUsableTextField extends StatelessWidget {
             fontWeight: FontWeight.w400,
             color: Colors.redAccent,
           ),
-          // errorBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(16.0),
-          //     borderSide: const BorderSide(
-          //       color: Colors.redAccent,
-          //     )),
-          // enabledBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(16.0),
-          //     borderSide: const BorderSide(
-          //       color: Colors.transparent,
-          //     )),
-          // focusedBorder: OutlineInputBorder(
-          //     borderRadius: BorderRadius.circular(16.0),
-          //     borderSide: const BorderSide(
-          //       color: Colors.black54,
-          //     )),
         ),
       ),
     );

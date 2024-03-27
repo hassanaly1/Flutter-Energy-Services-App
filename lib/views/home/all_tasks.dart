@@ -125,10 +125,14 @@ class CustomTaskCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                CustomTextWidget(
-                  text: model.location ?? 'Not Assigned',
-                  fontSize: 12.0,
-                  decoration: TextDecoration.underline,
+                Flexible(
+                  child: CustomTextWidget(
+                    text: model.location! == ""
+                        ? 'Not Assigned'
+                        : model.location!,
+                    fontSize: 12.0,
+                    decoration: TextDecoration.underline,
+                  ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -157,12 +161,14 @@ class CustomTaskCard extends StatelessWidget {
                   color: AppColors.blueTextColor,
                 ),
                 const SizedBox(width: 4.0),
-                CustomTextWidget(
-                  text: model.nameOfJourneyMan!.isEmpty
-                      ? 'Not Assigned'
-                      : model.nameOfJourneyMan!,
-                  fontSize: 16.0,
-                  fontWeight: FontWeight.w700,
+                Flexible(
+                  child: CustomTextWidget(
+                    text: model.nameOfJourneyMan!.isEmpty
+                        ? 'Not Assigned'
+                        : model.nameOfJourneyMan!,
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ],
             ),

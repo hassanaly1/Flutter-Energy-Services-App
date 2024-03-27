@@ -3,7 +3,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:geolocator/geolocator.dart';
 
 class MapController extends GetxController {
   Rx<LatLng?> userCurrentLocation = Rx<LatLng?>(null);
@@ -17,19 +16,21 @@ class MapController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    _getCurrentLocation();
+    // _getCurrentLocation();
+    userCurrentLocation.value =
+        const LatLng(30.306083491666787, -97.73379054713618);
   }
 
-  Future<void> _getCurrentLocation() async {
-    try {
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
-      userCurrentLocation.value = LatLng(position.latitude, position.longitude);
-    } catch (e) {
-      debugPrint('Error getting current location: $e');
-    }
-  }
+  // Future<void> _getCurrentLocation() async {
+  //   try {
+  //     Position position = await Geolocator.getCurrentPosition(
+  //       desiredAccuracy: LocationAccuracy.high,
+  //     );
+  //     userCurrentLocation.value = LatLng(position.latitude, position.longitude);
+  //   } catch (e) {
+  //     debugPrint('Error getting current location: $e');
+  //   }
+  // }
 
   void onMapCreated(GoogleMapController controller) {
     mapController = controller;
@@ -49,7 +50,7 @@ class MapController extends GetxController {
     }
 
     // Start a new timer to delay the _updateAddress call
-    _debounceTimer = Timer(const Duration(seconds: 2), () {
+    _debounceTimer = Timer(const Duration(seconds: 1), () {
       _updateAddress(position.target);
     });
   }

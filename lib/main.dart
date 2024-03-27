@@ -1,6 +1,8 @@
 import 'package:energy_services/controllers/universal_controller.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/splash.dart';
+import 'package:energy_services/views/home/add_task/add_task.dart';
+import 'package:energy_services/views/home/home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -25,6 +27,12 @@ class MyApp extends StatelessWidget {
         Get.put(UniversalController());
       }),
       debugShowCheckedModeBanner: false,
+      // Define routes
+      getPages: [
+        GetPage(name: '/home', page: () => const HomeScreen()),
+        GetPage(name: '/add-task', page: () => AddTaskScreen()),
+        // Add more routes as needed
+      ],
       home: const SplashScreen(),
     );
   }

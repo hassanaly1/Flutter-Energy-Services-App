@@ -5,7 +5,6 @@ import 'package:energy_services/models/single_part_model.dart';
 import 'package:energy_services/models/task_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_rx/get_rx.dart';
 
 class AddTaskController extends GetxController {
   List<SinglePartModel> partsList = <SinglePartModel>[].obs; //List of Parts

@@ -4,6 +4,7 @@ import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
+import 'package:energy_services/helper/toast.dart';
 import 'package:energy_services/helper/validator.dart';
 import 'package:energy_services/models/single_part_model.dart';
 import 'package:energy_services/views/home/add_task/custom_stepperbody2.dart';
@@ -322,6 +323,9 @@ class CustomStepperBody4 extends StatelessWidget {
                     onTap: () {
                       controller.addTask();
                       Get.offAll(() => const HomeScreen());
+                      ToastMessage.showToastMessage(
+                          message: 'Task Created Successfully',
+                          backgroundColor: AppColors.blueTextColor);
                       // Get.delete<AddTaskController>();
                       // Get.toNamed('/home');
                       // Get.offAllNamed('/home');

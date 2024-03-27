@@ -8,11 +8,13 @@ class ReUsableAppbar extends StatelessWidget {
   final Color? iconColor;
   final Color? backgroundColor;
   final bool showBackArrow;
+  final bool showProfileAvatar;
   final Widget? prefixWidget;
   const ReUsableAppbar({
     super.key,
     required this.title,
     this.showBackArrow = true,
+    this.showProfileAvatar = true,
     this.iconColor = Colors.white,
     this.backgroundColor = Colors.transparent,
     this.prefixWidget,
@@ -29,7 +31,7 @@ class ReUsableAppbar extends StatelessWidget {
           prefixWidget ??
               IconButton(
                   onPressed: () => showBackArrow ? Get.back() : null,
-                  icon: Icon(Icons.arrow_back_ios,
+                  icon: Icon(Icons.arrow_back,
                       color: showBackArrow ? iconColor : Colors.transparent)),
           CustomTextWidget(
             text: title,
@@ -37,7 +39,9 @@ class ReUsableAppbar extends StatelessWidget {
             fontSize: 20.0,
             textColor: Colors.white,
           ),
-          const ProfileAvatar()
+          showProfileAvatar
+              ? const ProfileAvatar()
+              : const CircleAvatar(radius: 22, backgroundColor: Colors.transparent)
         ],
       ),
     );

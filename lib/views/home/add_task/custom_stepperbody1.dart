@@ -4,6 +4,7 @@ import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
+import 'package:energy_services/helper/toast.dart';
 import 'package:energy_services/views/home/add_task/select_location.dart';
 import 'package:energy_services/views/home/add_task/widgets/heading&textfield.dart';
 import 'package:energy_services/views/home/add_task/widgets/radio_button.dart';
@@ -102,10 +103,18 @@ class CustomStepperBody1 extends StatelessWidget {
                         ? 'Select Engine Brand'
                         : controller.engineBrand.value,
                     readOnly: true,
-                    onTap: () => _openSelectEngineDialog(
-                        context: context,
-                        controller: universalController,
-                        taskController: controller),
+                    onTap: () {
+                      universalController.engines.isEmpty
+                          ? ToastMessage.showToastMessage(
+                              message:
+                                  'Please Add Engines first from the Engine section.',
+                              backgroundColor: Colors.red)
+                          : _openSelectEngineDialog(
+                              context: context,
+                              controller: universalController,
+                              taskController: controller,
+                            );
+                    },
                   ),
                 ),
                 HeadingAndTextfield(
@@ -180,7 +189,6 @@ _openSelectEngineDialog(
           child: AlertDialog(
             scrollable: true,
             backgroundColor: Colors.transparent,
-            // title: CustomTextWidget(text: 'Hello'),
             content: Container(
               width: double.infinity,
               padding: EdgeInsets.symmetric(
@@ -189,20 +197,28 @@ _openSelectEngineDialog(
                 color: Colors.white60,
                 borderRadius: BorderRadius.all(Radius.circular(12.0)),
               ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: controller.engines.length,
-                itemBuilder: (context, index) {
-                  final engine = controller.engines[index];
-                  return CustomEngineCard(
-                    model: engine,
-                    onTap: () {
-                      taskController.engineBrand.value = engine.name ?? '';
-                      Get.back();
+              child: Column(
+                children: [
+                  CustomTextWidget(
+                      text: 'Engines',
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.w600),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: controller.engines.length,
+                    itemBuilder: (context, index) {
+                      final engine = controller.engines[index];
+                      return CustomEngineCard(
+                        model: engine,
+                        onTap: () {
+                          taskController.engineBrand.value = engine.name ?? '';
+                          Get.back();
+                        },
+                      );
                     },
-                  );
-                },
+                  ),
+                ],
               ),
             ),
           ),

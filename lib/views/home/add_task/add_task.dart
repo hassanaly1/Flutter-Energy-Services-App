@@ -8,6 +8,7 @@ import 'package:energy_services/views/home/add_task/custom_stepperbody1.dart';
 import 'package:energy_services/views/home/add_task/custom_stepperbody2.dart';
 import 'package:energy_services/views/home/add_task/custom_stepperbody3.dart';
 import 'package:energy_services/views/home/add_task/custom_stepperbody4.dart';
+import 'package:energy_services/views/home/add_task/qrcode_scanner.dart';
 import 'package:energy_services/views/home/add_task/stepper_header.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -25,92 +26,95 @@ class AddTaskScreen extends StatelessWidget {
           decoration: reusableDecoration(),
           child: DefaultTabController(
             length: 4,
-            child: Scaffold(
-              backgroundColor: Colors.white70,
-              body: NestedScrollView(
-                  controller: controller.scrollController,
-                  // floatHeaderSlivers: true,
-                  headerSliverBuilder: (context, innerBoxIsScrolled) {
-                    return [
-                      SliverAppBar(
-                        expandedHeight: context.height * 0.3,
-                        pinned: true,
-                        floating: true,
-                        primary: false,
+            child: GestureDetector(
+              onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+              child: Scaffold(
+                backgroundColor: Colors.white70,
+                body: NestedScrollView(
+                    controller: controller.scrollController,
+                    // floatHeaderSlivers: true,
+                    headerSliverBuilder: (context, innerBoxIsScrolled) {
+                      return [
+                        SliverAppBar(
+                          expandedHeight: context.height * 0.35,
+                          pinned: true,
+                          floating: true,
+                          primary: false,
 
-                        // title: Padding(
-                        //   padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        //   child: Obx(
-                        //     () => CustomTextWidget(
-                        //       text:
-                        //           'Steps ${controller.activePageIndex.value + 1} of 4',
-                        //       fontSize: 18.0,
-                        //       fontWeight: FontWeight.w600,
-                        //       textColor: controller.isScrolledUp.value
-                        //           ? Colors.black87
-                        //           : Colors.white70,
-                        //       textAlign: TextAlign.center,
-                        //     ),
-                        //   ),
-                        // ),
-                        // toolbarHeight: 300,
-                        excludeHeaderSemantics: false,
-                        forceMaterialTransparency: false,
+                          // title: Padding(
+                          //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          //   child: Obx(
+                          //     () => CustomTextWidget(
+                          //       text:
+                          //           'Steps ${controller.activePageIndex.value + 1} of 4',
+                          //       fontSize: 18.0,
+                          //       fontWeight: FontWeight.w600,
+                          //       textColor: controller.isScrolledUp.value
+                          //           ? Colors.black87
+                          //           : Colors.white70,
+                          //       textAlign: TextAlign.center,
+                          //     ),
+                          //   ),
+                          // ),
+                          // toolbarHeight: 300,
+                          excludeHeaderSemantics: false,
+                          forceMaterialTransparency: false,
 
-                        // bottom: PreferredSize(
-                        //   preferredSize: const Size.fromHeight(100),
-                        //   child: Container(
-                        //     color: AppColors.blueTextColor,
-                        //     child: Row(
-                        //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        //       children: [
-                        //         IconButton(
-                        //             onPressed: () => Get.back(),
-                        //             icon: const Icon(
-                        //               Icons.arrow_back,
-                        //               color: Colors.white70,
-                        //             )),
-                        //         Padding(
-                        //           padding:
-                        //               const EdgeInsets.symmetric(vertical: 8.0),
-                        //           child: Obx(
-                        //             () => CustomTextWidget(
-                        //               text:
-                        //                   'Steps ${controller.activePageIndex.value + 1} of 4',
-                        //               fontSize: 18.0,
-                        //               fontWeight: FontWeight.w600,
-                        //               textColor: controller.isScrolledUp.value
-                        //                   ? Colors.black87
-                        //                   : Colors.white70,
-                        //               textAlign: TextAlign.center,
-                        //             ),
-                        //           ),
-                        //         ),
-                        //         const ProfileAvatar(),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // ),
-                        flexibleSpace: ListView(
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: [
-                            AddTaskAppbar(controller: controller),
-                            TopSection(controller: controller),
-                          ],
+                          // bottom: PreferredSize(
+                          //   preferredSize: const Size.fromHeight(100),
+                          //   child: Container(
+                          //     color: AppColors.blueTextColor,
+                          //     child: Row(
+                          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          //       children: [
+                          //         IconButton(
+                          //             onPressed: () => Get.back(),
+                          //             icon: const Icon(
+                          //               Icons.arrow_back,
+                          //               color: Colors.white70,
+                          //             )),
+                          //         Padding(
+                          //           padding:
+                          //               const EdgeInsets.symmetric(vertical: 8.0),
+                          //           child: Obx(
+                          //             () => CustomTextWidget(
+                          //               text:
+                          //                   'Steps ${controller.activePageIndex.value + 1} of 4',
+                          //               fontSize: 18.0,
+                          //               fontWeight: FontWeight.w600,
+                          //               textColor: controller.isScrolledUp.value
+                          //                   ? Colors.black87
+                          //                   : Colors.white70,
+                          //               textAlign: TextAlign.center,
+                          //             ),
+                          //           ),
+                          //         ),
+                          //         const ProfileAvatar(),
+                          //       ],
+                          //     ),
+                          //   ),
+                          // ),
+                          flexibleSpace: ListView(
+                            physics: const NeverScrollableScrollPhysics(),
+                            children: [
+                              AddTaskAppbar(controller: controller),
+                              TopSection(controller: controller),
+                            ],
+                          ),
                         ),
-                      ),
-                    ];
-                  },
-                  body: Container(
-                    decoration: reusableDecoration(),
-                    child: BottomPageViewSection(controller: controller),
-                  )),
-              floatingActionButton: FloatingActionButton(
-                onPressed: () => controller.scrollUp(),
-                backgroundColor: AppColors.primaryColor,
-                mini: true,
-                shape: const CircleBorder(),
-                child: const Icon(Icons.arrow_upward_rounded),
+                      ];
+                    },
+                    body: Container(
+                      decoration: reusableDecoration(),
+                      child: BottomPageViewSection(controller: controller),
+                    )),
+                floatingActionButton: FloatingActionButton(
+                  onPressed: () => controller.scrollUp(),
+                  backgroundColor: AppColors.primaryColor,
+                  mini: true,
+                  shape: const CircleBorder(),
+                  child: const Icon(Icons.arrow_upward_rounded),
+                ),
               ),
             ),
           ),
@@ -183,13 +187,31 @@ class TopSection extends StatelessWidget {
             child: Obx(
               () => ReUsableContainer(
                 color: AppColors.primaryColor,
-                child: CustomTextWidget(
-                  text: controller.engineBrand.value == ''
-                      ? 'CAT 3600 SERVICE'
-                      : controller.engineBrand.value,
-                  fontSize: 18.0,
-                  textAlign: TextAlign.center,
-                  fontWeight: FontWeight.w600,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const IconButton(
+                        onPressed: null,
+                        icon: Icon(Icons.qr_code_scanner_rounded,
+                            color: Colors.transparent)),
+                    Expanded(
+                      child: CustomTextWidget(
+                        text: controller.engineBrand.value == ''
+                            ? 'CAT 3600 SERVICE'
+                            : controller.engineBrand.value,
+                        fontSize: 16.0,
+                        maxLines: 2,
+                        textAlign: TextAlign.center,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    IconButton(
+                        onPressed: () {
+                          Get.to(() => QrCodeScanner(),
+                              transition: Transition.rightToLeft);
+                        },
+                        icon: const Icon(Icons.qr_code_scanner_rounded))
+                  ],
                 ),
               ),
             ),

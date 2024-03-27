@@ -2,6 +2,7 @@ import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_textfield.dart';
+import 'package:energy_services/helper/toast.dart';
 import 'package:energy_services/views/auth/login.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -117,11 +118,16 @@ class SignupScreen extends StatelessWidget {
                             SizedBox(height: context.height * 0.03),
                             CustomButton(
                               buttonText: 'Register',
-                              onTap: () => Get.to(
-                                () => const LoginScreen(),
-                                transition: Transition.size,
-                                duration: const Duration(seconds: 1),
-                              ),
+                              onTap: () {
+                                Get.to(
+                                  () => const LoginScreen(),
+                                  transition: Transition.size,
+                                  duration: const Duration(seconds: 1),
+                                );
+                                ToastMessage.showToastMessage(
+                                    message: 'Account Created Successfully',
+                                    backgroundColor: AppColors.blueTextColor);
+                              },
                             ),
                             SizedBox(height: context.height * 0.02),
                             Center(

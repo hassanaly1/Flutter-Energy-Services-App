@@ -3,6 +3,7 @@ import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
+import 'package:energy_services/helper/toast.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -76,6 +77,9 @@ class GoogleMapScreen extends StatelessWidget {
                 buttonText: 'Confirm Location',
                 onTap: () {
                   Get.back();
+                  ToastMessage.showToastMessage(
+                      message: 'Location selected Successfully',
+                      backgroundColor: AppColors.blueTextColor);
                   debugPrint(
                       'Confirmed location: ${mapController.selectedAddress.value}');
                 },
