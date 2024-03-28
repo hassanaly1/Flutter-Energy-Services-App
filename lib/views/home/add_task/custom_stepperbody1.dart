@@ -3,6 +3,7 @@ import 'package:energy_services/controllers/universal_controller.dart';
 import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
+import 'package:energy_services/helper/dropdown.dart';
 import 'package:energy_services/helper/reusable_container.dart';
 import 'package:energy_services/helper/toast.dart';
 import 'package:energy_services/views/home/add_task/select_location.dart';
@@ -38,18 +39,17 @@ class CustomStepperBody1 extends StatelessWidget {
             color: Colors.grey.shade300,
             child: Column(
               children: [
-                Obx(
-                  () => HeadingAndTextfield(
-                      title: 'Select Location',
-                      onTap: () => Get.to(() => GoogleMapScreen()),
-                      hintText: controller.selectedAddress?.value == ""
-                          ? 'Select Location'
-                          : controller.selectedAddress?.value,
-                      // controller: controller.selectedLocation,
-                      readOnly: true,
-                      prefixIcon: Icon(Icons.location_on_outlined,
-                          color: AppColors.blueTextColor)),
-                ),
+                HeadingAndTextfield(
+                    title: 'Select Location',
+                    // hintText: controller.selectedAddress?.value == ""
+                    //     ? 'Select Location'
+                    //     : controller.selectedAddress?.value,
+                    controller: controller.selectedAddress,
+                    suffixIcon: InkWell(
+                      onTap: () => Get.to(() => SelectLocationScreen()),
+                      child: Icon(Icons.location_on_outlined,
+                          color: AppColors.blueTextColor),
+                    )),
                 Row(
                   children: [
                     Flexible(
@@ -96,26 +96,52 @@ class CustomStepperBody1 extends StatelessWidget {
                     ],
                   ),
                 ),
-                Obx(
-                  () => HeadingAndTextfield(
-                    title: 'Engine Brand',
-                    hintText: controller.engineBrand.value == ''
-                        ? 'Select Engine Brand'
-                        : controller.engineBrand.value,
-                    readOnly: true,
-                    onTap: () {
-                      universalController.engines.isEmpty
-                          ? ToastMessage.showToastMessage(
-                              message:
-                                  'Please Add Engines first from the Engine section.',
-                              backgroundColor: Colors.red)
-                          : _openSelectEngineDialog(
-                              context: context,
-                              controller: universalController,
-                              taskController: controller,
-                            );
-                    },
-                  ),
+                // Obx(
+                //   () => HeadingAndTextfield(
+                //     title: 'Engine Brand',
+                //     hintText: controller.engineBrand.value == ''
+                //         ? 'Select Engine Brand'
+                //         : controller.engineBrand.value,
+                //     readOnly: true,
+                //     onTap: () {
+                //       universalController.engines.isEmpty
+                //           ? ToastMessage.showToastMessage(
+                //               message:
+                //                   'Please Add Engines first from the Engine section.',
+                //               backgroundColor: Colors.red)
+                //           : _openSelectEngineDialog(
+                //               context: context,
+                //               controller: universalController,
+                //               taskController: controller,
+                //             );
+                //     },
+                //   ),
+                // ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomTextWidget(
+                      text: 'Engine Brand',
+                      fontWeight: FontWeight.w600,
+                      maxLines: 2,
+                    ),
+                    CustomDropdown(
+                      items: universalController.engines,
+                      hintText: 'Select Engine Brand',
+                      onTap: () {
+                        debugPrint('Dropdown tapped');
+                        universalController.engines.isEmpty
+                            ? ToastMessage.showToastMessage(
+                                message:
+                                    'Please Add Engines first from the Engine section.',
+                                backgroundColor: Colors.red)
+                            : null;
+                      },
+                      onChanged: (value) {
+                        controller.engineBrand.value = value!.name!;
+                      },
+                    ),
+                  ],
                 ),
                 HeadingAndTextfield(
                   title: 'Name of JOURNEYMAN',

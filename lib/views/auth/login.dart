@@ -70,7 +70,7 @@ class LoginScreen extends StatelessWidget {
                         child: Column(
                           children: [
                             CustomTextWidget(
-                              text: 'Welcome To Energy Services',
+                              text: 'Login to your Account',
                               fontSize: 16.0,
                               fontWeight: FontWeight.w600,
                             ),

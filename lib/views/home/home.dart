@@ -89,55 +89,58 @@ class HomeScreen extends StatelessWidget {
                             fit: BoxFit.fitWidth,
                           ),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            DashboardCard(
-                              onTap: () => Get.to(
-                                () => AddTaskScreen(),
-                                transition: Transition.size,
+                        SingleChildScrollView(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              DashboardCard(
+                                onTap: () => Get.to(
+                                  () => AddTaskScreen(),
+                                  transition: Transition.size,
+                                ),
+                                title: 'Start New Task',
+                                subtitle: 'Equipment Repair',
+                                image: 'assets/images/start-task.png',
                               ),
-                              title: 'Start New Task',
-                              subtitle: 'Equipment Repair',
-                              image: 'assets/images/start-task.png',
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                SmallCard(
-                                  onTap: () => Get.to(
-                                    () => const ReportsScreen(),
-                                    transition: Transition.zoom,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  SmallCard(
+                                    onTap: () => Get.to(
+                                      () => const ReportsScreen(),
+                                      transition: Transition.zoom,
+                                    ),
+                                    title: 'Reports',
+                                    icon: Symbols.lab_profile,
                                   ),
-                                  title: 'Reports',
-                                  icon: Symbols.lab_profile,
-                                ),
-                                SmallCard(
-                                  onTap: () {},
-                                  title: 'Customize Units',
-                                  icon: Symbols.dashboard_customize,
-                                ),
-                                SmallCard(
-                                  onTap: () => Get.to(
-                                    () => EnginesScreen(),
-                                    transition: Transition.zoom,
+                                  SmallCard(
+                                    onTap: () {},
+                                    title: 'Customize Units',
+                                    icon: Symbols.dashboard_customize,
                                   ),
-                                  title: 'Engines',
-                                  icon: Symbols.manufacturing,
-                                ),
-                              ],
-                            ),
-                            DashboardCard(
-                              onTap: () => Get.to(
-                                () => ViewAllTasksScreen(),
-                                transition: Transition.size,
+                                  SmallCard(
+                                    onTap: () => Get.to(
+                                      () => EnginesScreen(),
+                                      transition: Transition.zoom,
+                                    ),
+                                    title: 'Engines',
+                                    icon: Symbols.manufacturing,
+                                  ),
+                                ],
                               ),
-                              title: 'View Tasks',
-                              subtitle:
-                                  'Click here to view all submitted repair forms and their details.',
-                              image: 'assets/images/view-task.png',
-                            ),
-                          ],
+                              DashboardCard(
+                                onTap: () => Get.to(
+                                  () => ViewAllTasksScreen(),
+                                  transition: Transition.size,
+                                ),
+                                title: 'View Tasks',
+                                subtitle:
+                                    'Click here to view all submitted repair forms and their details.',
+                                image: 'assets/images/view-task.png',
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),

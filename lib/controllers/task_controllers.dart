@@ -16,7 +16,7 @@ class AddTaskController extends GetxController {
 
   @override
   void onInit() {
-    selectedAddress = mapController.selectedAddress;
+    selectedAddress.text = mapController.selectedAddress.value;
     taskSelectedDate = DateTime.now().obs;
     taskSelectedTime = TimeOfDay.now().obs;
     pyrometerTemperatureControllers.add(TextEditingController());
@@ -37,7 +37,8 @@ class AddTaskController extends GetxController {
   void addTask() {
     TaskModel newTask = TaskModel(
       //Page1
-      location: selectedAddress?.value,
+      selectedAddress: selectedAddress.text,
+      // location: selectedAddress.text.trim(),
       setUnits: double.tryParse(setUnits.text.trim()),
       unitHours: double.tryParse(unitHours.text.trim()),
       selectedDate: taskSelectedDate.value,
@@ -194,16 +195,18 @@ class AddTaskController extends GetxController {
 
   //Page1
 
-  RxString? selectedAddress = RxString('');
+  // RxString? selectedAddress = RxString('');
+  TextEditingController selectedAddress = TextEditingController();
   TextEditingController setUnits = TextEditingController();
   TextEditingController unitHours = TextEditingController();
   late Rx<DateTime> taskSelectedDate;
   late Rx<TimeOfDay> taskSelectedTime;
+  RxString engineBrand = ''.obs;
   TextEditingController nameOfJourneyMan = TextEditingController();
   RxString unitOnlineOnArrival = ''.obs;
   TextEditingController jobScope = TextEditingController();
   TextEditingController operationalProblems = TextEditingController();
-  RxString engineBrand = ''.obs;
+
   TextEditingController modelNumber = TextEditingController();
   TextEditingController serialNumber = TextEditingController();
   TextEditingController arrangementNumber = TextEditingController();

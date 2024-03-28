@@ -85,9 +85,9 @@ class SignupScreen extends StatelessWidget {
                                 children: [
                                   SizedBox(height: context.height * 0.03),
                                   ReUsableTextField(
-                                      hintText: 'Email',
+                                      hintText: 'Name',
                                       prefixIcon: Icon(
-                                        Icons.email_outlined,
+                                        Icons.account_circle_outlined,
                                         color: AppColors.primaryColor,
                                       )
 
@@ -95,16 +95,16 @@ class SignupScreen extends StatelessWidget {
                                       //     AppValidator.validateEmail(value: val),
                                       ),
                                   ReUsableTextField(
-                                      hintText: 'Password',
+                                      hintText: 'Email',
                                       prefixIcon: Icon(
-                                        Icons.lock_open_rounded,
+                                        Icons.email_outlined,
                                         color: AppColors.primaryColor,
                                       )
                                       // validator: (val) =>
                                       //     AppValidator.validatePassword(value: val),
                                       ),
                                   ReUsableTextField(
-                                      hintText: 'Confirm Password',
+                                      hintText: 'Password',
                                       prefixIcon: Icon(
                                         Icons.lock_open_rounded,
                                         color: AppColors.primaryColor,

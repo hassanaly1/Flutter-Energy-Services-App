@@ -17,6 +17,7 @@ class MapController extends GetxController {
   void onInit() {
     super.onInit();
     // _getCurrentLocation();
+    //todo: This needs to be changed in the future.
     userCurrentLocation.value =
         const LatLng(30.306083491666787, -97.73379054713618);
   }

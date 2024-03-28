@@ -1,6 +1,7 @@
 import 'package:energy_services/controllers/engines_controller.dart';
 import 'package:energy_services/controllers/universal_controller.dart';
 import 'package:energy_services/helper/appbar.dart';
+import 'package:energy_services/helper/appcolors.dart';
 import 'package:energy_services/helper/custom_button.dart';
 import 'package:energy_services/helper/custom_text.dart';
 import 'package:energy_services/helper/reusable_container.dart';
@@ -176,17 +177,22 @@ void _openAddEngineDialog(
                 ),
                 child: Column(
                   children: [
-                    Container(
-                      height: context.height * 0.1,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/user2.jpg")),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: context.height * 0.1,
+                        decoration: const BoxDecoration(
+                          shape: BoxShape.circle,
+                          image: DecorationImage(
+                              fit: BoxFit.contain,
+                              image: AssetImage("assets/images/engine.png")),
+                        ),
                       ),
                     ),
                     Form(
                         key: controller.qrFormKey,
                         child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             HeadingAndTextfield(
                               title: 'Enter Engine Name & Model',
@@ -204,6 +210,36 @@ void _openAddEngineDialog(
                               validator: (val) =>
                                   AppValidator.validateEmptyText(
                                       fieldName: 'Engine Subtitle', value: val),
+                            ),
+                            CustomTextWidget(
+                              text: 'Select Engine Type',
+                              fontSize: 12.0,
+                              fontWeight: FontWeight.w600,
+                              maxLines: 2,
+                            ),
+                            Obx(
+                              () => Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children:
+                                    ['Generator', 'Compressor'].map((option) {
+                                  return Row(
+                                    children: [
+                                      Radio(
+                                        visualDensity: VisualDensity.compact,
+                                        activeColor: AppColors.blueTextColor,
+                                        value: option,
+                                        groupValue: controller.engineType.value,
+                                        onChanged: (value) {
+                                          controller.engineType.value =
+                                              value.toString();
+                                        },
+                                      ),
+                                      CustomTextWidget(
+                                          text: option, fontSize: 11.0),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
                             ),
                           ],
                         )),
@@ -287,24 +323,29 @@ class CustomEngineCard extends StatelessWidget {
         onTap: onTap,
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: Image.network(
-            model.image == ''
-                ? 'https://img.freepik.com/premium-photo/3d-car-engine-hd-8k-wallpaper-stock-photographic-image_890746-42633.jpg?w=360'
-                : model.image!,
+          child: Image.asset(
+            model.image == '' ? 'assets/images/engine.png' : model.image!,
             width: 100,
             fit: BoxFit.cover,
           ),
         ),
         title: CustomTextWidget(
           text: model.name ?? 'No Image Specified',
-          fontSize: 14.0,
+          fontSize: 18.0,
+          fontWeight: FontWeight.w600,
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             CustomTextWidget(
               text: model.subtitle ?? 'No SubTitle Specified',
+              textColor: AppColors.textColor,
               fontSize: 14.0,
+            ),
+            CustomTextWidget(
+              text: model.type ?? 'No Type Specified',
+              fontSize: 12.0,
+              textColor: AppColors.lightGreyColor,
             ),
           ],
         ),

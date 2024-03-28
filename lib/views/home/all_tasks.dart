@@ -127,9 +127,9 @@ class CustomTaskCard extends StatelessWidget {
               children: [
                 Flexible(
                   child: CustomTextWidget(
-                    text: model.location! == ""
+                    text: model.selectedAddress! == ""
                         ? 'Not Assigned'
-                        : model.location!,
+                        : model.selectedAddress!,
                     fontSize: 12.0,
                     decoration: TextDecoration.underline,
                   ),
